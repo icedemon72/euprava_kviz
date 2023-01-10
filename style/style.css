@@ -1,0 +1,117 @@
+/* 
+Tacan (zelena) -> #69B578
+Netacan (crvena) -> #9B2915
+Main (zuta) -> #FFCD00
+Main (plava) -> #002C3C
+*/
+
+/* Navbar */
+.navbar_main, .navbar_main ul, #navbarAccountInfo {
+  background-color: #002C3C;
+  color: #FFF;
+}
+
+.navbar_main a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.navbar_main a:focus{
+  color: #FFCD00;
+}
+
+.navbar_main .active {
+  color: #FFCD00;
+}
+
+.navbar_main a:hover {
+  color: #FFCD00;
+}
+
+.navbar_main a:active {
+  color: #FFCD00;
+}
+
+.navbar_main .dropdown-item:hover{
+  color: #002C3C;
+  background-color: #FFCD00;
+}
+
+.navbar_main .registration_button {
+  color: #002C3C;
+  background-color: #FFCD00;
+  border-radius: 5px;
+}
+
+.navbar_main .registration_button:hover {
+  color: #FFCD00;
+  background-color: #002C3C;
+}
+
+
+/* Registration.php */
+.reg_body {
+  background-color: #00465F;
+}
+
+.registration_container {
+  color: #FFF;
+  background-color: #00465F;
+  border: 0;
+}
+
+.reg_image {
+  height: 70%;
+  width: 100%;
+}
+
+.reg_text {
+  color: #FFCD00;
+}
+
+.reg_btn {
+  color: #002C3C;
+  background-color: #FFCD00;
+  border-color: #00465F;
+}
+
+.reg_btn:hover {
+  color: #FFCD00;
+  background-color: #00465F;
+  border-color: #00465F;
+
+}
+
+.reg_link {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.reg_link:focus{
+  color: #FFCD00;
+}
+
+.reg_link:hover {
+  color: #FFCD00;
+}
+
+.reg_link:active {
+  color: #FFCD00;
+}
+
+
+#pwHelp, #unHelp {
+  color: #FFCD00 !important;
+}
+
+@media only screen and (max-width: 991px) {
+  
+
+  .reg_image {
+    display: none;
+  }
+
+  .registration_container {
+    width: 100%;
+  }
+}
