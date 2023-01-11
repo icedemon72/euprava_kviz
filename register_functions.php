@@ -1,6 +1,4 @@
 <?php
-  header("HTTP/1.1 403 Forbidden");
-
   function checkIfEmailExists($email, $conn) {
     $stmt = $conn->prepare(
       "SELECT * 

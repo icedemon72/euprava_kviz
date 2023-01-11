@@ -1,6 +1,5 @@
 <?php
-  header("HTTP/1.1 403 Forbidden");
-  
+ 
   function randomizeArray($array, $sliceTo) {
     shuffle($array);
     return array_slice($array, 0, $sliceTo);

@@ -1,6 +1,4 @@
-<?php
-  header("HTTP/1.1 403 Forbidden");
-  
+<?php  
   function checkIfUsernameExists($username, $conn) {
     $stmt = $conn->prepare(
       "SELECT *
@@ -39,13 +37,14 @@
       array_push($errors, 'Pogrešan unos u polje "Korisničko ime"!');
     } else if (!checkIfUsernameExists($input['uname'], $conn)) {
       array_push($errors, 'Korisničko ime "' . $input['uname'] . '" ne postoji!');
-    }
-    
+    } 
     // password check
-    if(!strlen($input['pass'])) {
+    else if(!strlen($input['pass'])) {
       array_push($errors, 'Pogrešan unos u polje "Lozinka"!');
     } else if(!checkIfPasswordIsCorrect($input['uname'], $input['pass'], $conn)) {
       array_push($errors, 'Pogrešna lozinka!');
+    } else {
+      $_SESSION['username'] = $input['uname'];
     }
 
     return $errors;

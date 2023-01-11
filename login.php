@@ -1,14 +1,19 @@
 <?php 
+  session_start();
+  if (isset($_SESSION['username'])) {
+    header('Location: ./index.php');
+    exit();
+  }
+
   require_once('./auth/connect_db.php');
   require_once('./components/navbar.php');
   require_once('./login_functions.php');
+  require_once('./auth/settings.php');
 
   $inputvalues = array();
   $errors = array();
   $errorMessage = '';
   $success = false;
-
-
 
   if (isset($_POST['logBtn'])) {
     foreach($_POST as $key => $value) {
@@ -22,7 +27,6 @@
     }
 
     if(sizeof($errors) == 0) { // no user input errors
-      echo "YAY!";
       $inputValues = array();
       $success = true;
     }
@@ -36,12 +40,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/kviz/style/bootstrap.min.css">
-  <link rel="stylesheet" href="/kviz/style/style.css">
+  <link rel="stylesheet" href="<?php echo $PATH.'/style/bootstrap.min.css'?>">
+  <link rel="stylesheet" href="<?php echo $PATH.'/style/style.css'?>">
   <title>Kvizzi | Prijava</title>
 </head>
 <body class="reg_body">
-  <?php generateNavbar('') ?>
+  <?php generateNavbar('', $PATH) ?>
 
   <section>
     <div class="container">
@@ -68,7 +72,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <small id="pwHelp" class="form-text text-muted">Nemaš nalog? <a class="reg_link" href="/kviz/register.php">Registruj se</a></small>
+                      <small id="pwHelp" class="form-text text-muted">Nemaš nalog? <a class="reg_link" href="<?php echo $PATH.'/register.php'?>">Registruj se</a></small>
                     </div> 
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -93,8 +97,17 @@
     </div>
   </section>
 
-  <script src="/kviz/scripts/bootstrap.bundle.min.js"></script>
-  <script src="/kviz/scripts/script.js"></script>
+  <?php if($success): ?>
+    <script>
+      window.setTimeout(x => { 
+        window.location = "<?php echo $PATH.'/index.php'?>";
+      }, 1000);
+      window.history.replaceState(null, null, window.location.href);
+    </script>
+  <?php endif; ?>
+
+  <script src="<?php echo $PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
+  <script src="<?php echo $PATH.'/scripts/script.js'?>"></script>
 </body>
 
 </html>

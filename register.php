@@ -1,4 +1,5 @@
 <?php
+  session_start();
   if (isset($_SESSION['username'])) {
     header('Location: ./index.php');
     exit();
@@ -7,6 +8,7 @@
   require_once('./auth/connect_db.php');
   require_once('./components/navbar.php');
   require_once('./register_functions.php');
+  require_once('./auth/settings.php');
 
   $errors = array();
   $errorMessage = '';
@@ -41,13 +43,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" href="/kviz/style/bootstrap.min.css">
-  <link rel="stylesheet" href="/kviz/style/style.css">
+  <link rel="shortcut icon" href="<?php echo $PATH.'/images/favicon.png'?>" type="image/x-icon">
+  <link rel="stylesheet" href="<?php echo $PATH.'/style/bootstrap.min.css'?>">
+  <link rel="stylesheet" href="<?php echo $PATH.'/style/style.css'?>">
   <title>Kvizzi | Registracija</title>
 </head>
 <body class="reg_body"> 
-  <?php generateNavbar('') ?>
+  <?php generateNavbar('', $PATH) ?>
   <section>
     <div class="container">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -110,7 +112,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <small id="pwHelp" class="form-text text-muted">Imaš nalog? <a class="reg_link" href="/kviz/login.php">Prijavi se</a></small>
+                      <small id="pwHelp" class="form-text text-muted">Imaš nalog? <a class="reg_link" href="<?php echo $PATH.'/login.php'?>">Prijavi se</a></small>
                     </div> 
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -145,8 +147,8 @@
       window.history.replaceState(null, null, window.location.href);
     </script>
   <?php endif; ?>
-  <script src="/kviz/scripts/script.js"></script>
-  <script src="/kviz/scripts/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo $PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
+  <script src="<?php echo $PATH.'/scripts/script.js'?>"></script>
 </body>
 
 </html>

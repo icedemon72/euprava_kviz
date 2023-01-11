@@ -1,4 +1,4 @@
-<?php
+<?php 
   $server = 'localhost';
   $user = 'root';
   $pw = '';
@@ -9,4 +9,5 @@
     echo $conn->connect_error;
     die();
   }
+  
 ?>
