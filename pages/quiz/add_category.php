@@ -1,7 +1,7 @@
 <?php
   session_start();
-  require_once('./../components/navbar.php');
-  require_once('./../auth/settings.php');
+  require_once('./../../components/navbar.php');
+  require_once('./../../auth/settings.php');
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="<?=$PATH.'/images/favicon.png'?>" type="image/x-icon">
   <link rel="stylesheet" href="<?=$PATH.'/style/bootstrap.min.css'?>">
   <link rel="stylesheet" href="<?=$PATH.'/style/style.css'?>">
-  <title>Kvizzi | Statistika</title>
+  <title>Kvizzi | Dodaj kategoriju</title>
 
 </head>
 

@@ -11,20 +11,12 @@ Main (plava) -> #002C3C
   color: #FFF;
 }
 
-.navbar_main a {
+.navbar_main a, input.dropdown-item {
   color: #FFF;
   text-decoration: none;
 }
 
-.navbar_main a:focus{
-  color: #FFCD00;
-}
-
-.navbar_main .active {
-  color: #FFCD00;
-}
-
-.navbar_main a:hover {
+.navbar_main .active, .navbar_main a:focus, .navbar_main a:hover {
   color: #FFCD00;
 }
 
@@ -46,6 +38,14 @@ Main (plava) -> #002C3C
 .navbar_main .registration_button:hover {
   color: #FFCD00;
   background-color: #002C3C;
+}
+
+input.dropdown-item {
+  background-color: #9B2915;
+}
+
+.dropdown_user {
+  text-align: center;
 }
 
 
@@ -105,8 +105,6 @@ Main (plava) -> #002C3C
 }
 
 @media only screen and (max-width: 991px) {
-  
-
   .reg_image {
     display: none;
   }
@@ -114,4 +112,45 @@ Main (plava) -> #002C3C
   .registration_container {
     width: 100%;
   }
+}
+
+/* Profile */
+
+.profile_body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.profile_row {
+  color: #000;
+}
+
+.profile-head {
+  transform: translateY(5rem)
+}
+
+.profile_name {
+  color: white;
+}
+
+.cover {
+  background-size: cover;
+  background-repeat: no-repeat
+}
+
+@media only screen and (max-width: 991px) {
+  .cover {
+    background-image: none;
+    background-color: #002C3C;
+  }
+}
+
+.edit_profile_btn {
+  color: #00465F;
+  background-color: #FFCD00;
+  transition: 0.3s ease-in;
+}
+
+.edit_profile_btn:hover {
+  background-color: #e7b900;
 }

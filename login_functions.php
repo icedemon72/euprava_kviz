@@ -45,12 +45,19 @@
       array_push($errors, 'Pogrešna lozinka!');
     } else {
       $_SESSION['username'] = $input['uname'];
+      $date = date_format(date_create(), 'Y-m-d');
+      $stmt = $conn->prepare(
+        "UPDATE users
+        SET last_log_in = ?
+        WHERE users.username = ?;"
+      );
+
+      $stmt->bind_param('ss', $date, $input['uname']);
+      $stmt->execute();
     }
 
     return $errors;
   }
 
-  function userLogin($input, $conn) {
-    //
-  }
+
 ?>

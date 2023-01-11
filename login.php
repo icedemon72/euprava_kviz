@@ -40,8 +40,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="<?php echo $PATH.'/style/bootstrap.min.css'?>">
-  <link rel="stylesheet" href="<?php echo $PATH.'/style/style.css'?>">
+  <link rel="stylesheet" href="<?=$PATH.'/style/bootstrap.min.css'?>">
+  <link rel="stylesheet" href="<?=$PATH.'/style/style.css'?>">
   <title>Kvizzi | Prijava</title>
 </head>
 <body class="reg_body">
@@ -56,23 +56,23 @@
               <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8 col-sm-10 order-2 order-lg-1">
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 reg_text">Prijava</p>
-                  <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="mx-1 mx-md-4">
+                  <form action="<?=$_SERVER['PHP_SELF'] ?>" method="post" class="mx-1 mx-md-4">
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="formUname" >Korisničko ime</label>
-                        <input type="text" id="formUname" class="form-control" name="uname" value="<?php echo htmlspecialchars(@$inputValues['uname']) ?>" oninvalid="setCustomValidity('Unesite korisničko ime.')" />
+                        <input type="text" id="formUname" class="form-control" name="uname" value="<?=htmlspecialchars(@$inputValues['uname'])?> " oninvalid="setCustomValidity('Unesite korisničko ime.')" autofocus/>
                       </div>
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="formPass" >Lozinka</label>
-                        <input type="password" id="formPass" class="form-control" name="pass" value="<?php echo htmlspecialchars(@$inputValues['pass']) ?>" oninvalid="setCustomValidity('Unesite lozinku.')" />
+                        <input type="password" id="formPass" class="form-control" name="pass" value="<?=htmlspecialchars(@$inputValues['pass']) ?>" oninvalid="setCustomValidity('Unesite lozinku.')" />
                       </div>
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <small id="pwHelp" class="form-text text-muted">Nemaš nalog? <a class="reg_link" href="<?php echo $PATH.'/register.php'?>">Registruj se</a></small>
+                      <small id="pwHelp" class="form-text text-muted">Nemaš nalog? <a class="reg_link" href="<?=$PATH.'/register.php'?>">Registruj se</a></small>
                     </div> 
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -81,11 +81,11 @@
                     
                   <?php if ($errorMessage != ''): ?>
                     <div class="d-flex justify-content-center mx-4 mb-lg-4 alert alert-danger" role="alert">
-                      <ul class="errors"><?php echo @$errorMessage; ?></ul>
+                      <ul class="errors"><?=@$errorMessage; ?></ul>
                     </div>
                   <?php endif; if ($success): ?> 
                     <div class="d-flex justify-content-center mb-lg-4 alert alert-success" role="alert">
-                      <p class="success"><?php echo 'Uspešna prijava, redirektujem na početnu...' ?></p>
+                      <p class="success"><?='Uspešna prijava, redirektujem na početnu...' ?></p>
                     </div>
                   <?php endif; ?>
                 </div>  
@@ -100,14 +100,14 @@
   <?php if($success): ?>
     <script>
       window.setTimeout(x => { 
-        window.location = "<?php echo $PATH.'/index.php'?>";
+        window.location = "<?=$PATH.'/index.php'?>";
       }, 1000);
       window.history.replaceState(null, null, window.location.href);
     </script>
   <?php endif; ?>
 
-  <script src="<?php echo $PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
-  <script src="<?php echo $PATH.'/scripts/script.js'?>"></script>
+  <script src="<?=$PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
+  <script src="<?=$PATH.'/scripts/script.js'?>"></script>
 </body>
 
 </html>

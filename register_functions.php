@@ -98,7 +98,7 @@
 
   function registerUser($input, $conn){
     $register_date = date_create();
-    $register_time = date_format($register_date, 'Y-m-d H:i:s');
+    $register_time = date_format($register_date, 'Y-m-d');
     $stmt = $conn->prepare(
       "INSERT INTO users(
         email, username, password, first_name, 

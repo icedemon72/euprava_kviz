@@ -14,14 +14,14 @@
   <link rel="shortcut icon" href="<?=$PATH.'/images/favicon.png'?>" type="image/x-icon">
   <link rel="stylesheet" href="<?=$PATH.'/style/bootstrap.min.css'?>">
   <link rel="stylesheet" href="<?=$PATH.'/style/style.css'?>">
-  <title>Kvizzi | Statistika</title>
+  <title>Kvizzi | O nama</title>
 
 </head>
 
 <body>
   <!-- Navbar -->
   <?php
-    generateNavbar('kviz', $PATH);
+    generateNavbar('o nama', $PATH);
     
   ?>
 
