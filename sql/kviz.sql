@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2023 at 05:46 PM
+-- Generation Time: Jan 12, 2023 at 05:14 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Database: `kviz`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `achievements`
+--
+
+CREATE TABLE `achievements` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `users_unlocked` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `achievements`
+--
+
+INSERT INTO `achievements` (`id`, `title`, `description`, `image`, `users_unlocked`) VALUES
+(1, 'Zvezde Grandice I', 'Završi kviz 5 puta (sa barem 5 tačnih odgovora)', 'star_bronze.png', 0),
+(2, 'Zvezde Grandice II', 'Završi kviz 10 puta (sa barem 5 tačnih odgovora)', 'star_silver.png', 0),
+(3, 'Zvezde Grandice III', 'Završi kviz 15 puta (sa barem 5 tačnih odgovora)', 'star_gold.png', 0),
+(4, 'Trofej Bradete Jarice I', 'Završi kviz sa barem 8 tačnih odgovora', 'trophy_bronze.png', 0),
+(5, 'Trofej Bradete Jarice II', 'Završi kviz sa barem 9 tačnih odgovora', 'trophy_silver.png', 0),
+(6, 'Trofej Bradete Jarice III', 'Završi kviz sa barem 10 tačnih odgovora', 'trophy_gold.png', 0),
+(7, 'Konačno sam našao deo koji mi nedostaje', 'Dodaj opis', 'about_achievement.png', 0),
+(8, 'It\'s OK let him play', 'Odigraj jednom', 'itsokay.png', 0),
+(9, 'Nemoj ga rush-ati, samo mu ga daj malo po gasu', 'Završi kviz sa barem 7 tačnih odgovora za manje od jednog minuta', 'gas.jpg', 0),
+(10, 'I meni je mene žao, zaplak\'o sam zamalo', 'Završi kviz bez tačnog odgovora', 'cry.jpg', 0),
+(11, 'Vukov \"Riječnik\" I izdanje', 'Osvoji sva dostignućna', 'vuk.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -236,6 +267,29 @@ INSERT INTO `answers` (`id`, `text`, `correct`, `questions_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `is_admin`
+--
+
+CREATE TABLE `is_admin` (
+  `id` int(11) NOT NULL,
+  `users_id` int(11) DEFAULT NULL,
+  `date_assigned` datetime DEFAULT current_timestamp(),
+  `date_resigned` datetime DEFAULT NULL,
+  `questions_approved` int(11) DEFAULT 0,
+  `categories_added` int(11) DEFAULT 0,
+  `status` bit(1) DEFAULT b'1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `is_admin`
+--
+
+INSERT INTO `is_admin` (`id`, `users_id`, `date_assigned`, `date_resigned`, `questions_approved`, `categories_added`, `status`) VALUES
+(1, 1, '2023-01-12 13:26:16', NULL, 0, 0, b'1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `questions`
 --
 
@@ -316,6 +370,21 @@ INSERT INTO `questions` (`id`, `text`, `points_value`, `type`, `quiz_type_id`) V
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quiz_playing`
+--
+
+CREATE TABLE `quiz_playing` (
+  `id` int(11) NOT NULL,
+  `time_started` datetime DEFAULT NULL,
+  `time_finished` datetime DEFAULT NULL,
+  `score` decimal(10,2) DEFAULT NULL,
+  `quiz_type_id` int(11) DEFAULT NULL,
+  `users_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `quiz_type`
 --
 
@@ -348,19 +417,51 @@ CREATE TABLE `users` (
   `last_name` varchar(255) NOT NULL,
   `date_of_birth` date NOT NULL,
   `registration_date` date NOT NULL,
-  `last_log_in` date NOT NULL
+  `last_log_in` date NOT NULL,
+  `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-10');
+INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-12', 'Nema opisa... :('),
+(2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-12', NULL),
+(3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
+(4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
+(5, '1234@gmail.com', '123', 'e10adc3949ba59abbe56e057f20f883e', 'XYZ', 'YXZ', '2010-10-05', '2023-01-12', '2023-01-12', 'IMAM OPIS!!!');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_has_achievement`
+--
+
+CREATE TABLE `user_has_achievement` (
+  `id` int(11) NOT NULL,
+  `users_id` int(11) DEFAULT NULL,
+  `achievements_id` int(11) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'0',
+  `date_unlocked` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_has_achievement`
+--
+
+INSERT INTO `user_has_achievement` (`id`, `users_id`, `achievements_id`, `status`, `date_unlocked`) VALUES
+(1, 1, 1, b'1', '2023-01-12 13:48:00');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `achievements`
+--
+ALTER TABLE `achievements`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `answers`
@@ -370,11 +471,26 @@ ALTER TABLE `answers`
   ADD KEY `FK_answers_questions` (`questions_id`) USING BTREE;
 
 --
+-- Indexes for table `is_admin`
+--
+ALTER TABLE `is_admin`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_is_admin_users` (`users_id`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_questions_quiz_type` (`quiz_type_id`);
+
+--
+-- Indexes for table `quiz_playing`
+--
+ALTER TABLE `quiz_playing`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_quiz_playing_quiz_type` (`quiz_type_id`),
+  ADD KEY `FK_quiz_playing_users` (`users_id`);
 
 --
 -- Indexes for table `quiz_type`
@@ -391,8 +507,22 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `user_has_achievement`
+--
+ALTER TABLE `user_has_achievement`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_users_has_achievement_users` (`users_id`),
+  ADD KEY `FK_users_has_achievement_achievements` (`achievements_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `achievements`
+--
+ALTER TABLE `achievements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `answers`
@@ -401,10 +531,22 @@ ALTER TABLE `answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
+-- AUTO_INCREMENT for table `is_admin`
+--
+ALTER TABLE `is_admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `quiz_playing`
+--
+ALTER TABLE `quiz_playing`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `quiz_type`
@@ -416,6 +558,12 @@ ALTER TABLE `quiz_type`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_has_achievement`
+--
+ALTER TABLE `user_has_achievement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -429,10 +577,30 @@ ALTER TABLE `answers`
   ADD CONSTRAINT `FK_odgovori_pitanja` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`);
 
 --
+-- Constraints for table `is_admin`
+--
+ALTER TABLE `is_admin`
+  ADD CONSTRAINT `FK_is_admin_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
+
+--
 -- Constraints for table `questions`
 --
 ALTER TABLE `questions`
   ADD CONSTRAINT `FK_questions_quiz_type` FOREIGN KEY (`quiz_type_id`) REFERENCES `quiz_type` (`id`);
+
+--
+-- Constraints for table `quiz_playing`
+--
+ALTER TABLE `quiz_playing`
+  ADD CONSTRAINT `FK_quiz_playing_quiz_type` FOREIGN KEY (`quiz_type_id`) REFERENCES `quiz_type` (`id`),
+  ADD CONSTRAINT `FK_quiz_playing_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `user_has_achievement`
+--
+ALTER TABLE `user_has_achievement`
+  ADD CONSTRAINT `FK_users_has_achievement_achievements` FOREIGN KEY (`achievements_id`) REFERENCES `achievements` (`id`),
+  ADD CONSTRAINT `FK_users_has_achievement_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
