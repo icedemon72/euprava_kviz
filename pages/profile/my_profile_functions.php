@@ -31,7 +31,7 @@
 
     $resultToReturn = array();
     $keysArray = array(
-      'first_name', 'last_name', 'date_of_birth',
+      'first_name', 'last_name', 'date_of_birth', 'email',
       'registration_date', 'last_log_in', 'description'
     );
     while($row = $result->fetch_assoc()) {
@@ -65,6 +65,54 @@
 
 
     return($stmt->num_rows()); // DODATI ZA OSTALO...
+  }
+  
+  function getAchievements($user, $conn) {    
+    $stmt = $conn->prepare(
+      "SELECT *
+      FROM achievements"
+    );
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $resArray = array(
+      'id' => array(),
+      'title' => array(),
+      'description' => array(),
+      'image' => array(),
+      'hasAchievement' => array(),
+      'dateUnlocked' => array()
+    );
+    
+    while($row = $result->fetch_assoc()) {
+      array_push($resArray['id'], $row['id']);
+      array_push($resArray['title'], $row['title']);
+      array_push($resArray['description'], $row['description']);
+      array_push($resArray['image'], $row['image']);
+    }
+
+    $resArray['hasAchievement'] = array_fill(0, sizeof($resArray['title']), 0);
+    $resArray['dateUnlocked'] = array_fill(0, sizeof($resArray['title']), NULL);
+
+    $id = getIdByUser($user, $conn);
+
+    $stmt = $conn->prepare(
+      "SELECT * 
+      FROM user_has_achievement
+      WHERE users_id = ?;"
+    );
+
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()) {
+      $ach = array_search($row['achievements_id'], $resArray['id']);
+      $resArray['hasAchievement'][$ach] = $row['status'];
+      $resArray['dateUnlocked'][$ach] =  (new DateTime($row['date_unlocked']))->format('d. M Y. H:i');
+    }
+
+    return $resArray;
   }
 
 ?>

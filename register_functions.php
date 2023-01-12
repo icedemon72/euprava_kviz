@@ -67,6 +67,7 @@
         array_push($errors, 'Lozinke se ne poklapaju!'); 
       }
     }
+    
     // first name check
     if(!strlen($inputValues['firstname'])) {
       array_push($errors, 'Pogrešan unos u "ime" polje!');

@@ -1,7 +1,7 @@
 <?php
 session_start();
-if(!isset($_SESSION['username'])) {
-  header('Location: ./index.php');
+if (!isset($_SESSION['username'])) {
+  header('Location: ./../../login.php');
   exit();
 }
 
@@ -10,9 +10,9 @@ require_once('./../../auth/settings.php');
 require_once('./../../auth/connect_db.php');
 require_once('./my_profile_functions.php');
 
-
 $userInfo = getInfoFromUser($_SESSION['username'], $conn);
-$quiz = getQuizDetails($user, $conn);
+$quiz = getQuizDetails($_SESSION['username'], $conn);
+$achievements = getAchievements($_SESSION['username'], $conn);
 ?>
 
 <!DOCTYPE html>
@@ -37,14 +37,14 @@ $quiz = getQuizDetails($user, $conn);
   <div class="row profile_row py-5 px-4">
     <div class="col-md-10 col-lg-8 col-xl-6 mx-auto"> <!-- Profile widget -->
       <div class="bg-white shadow rounded overflow-hidden">
-        <div class="px-4 pt-0 pb-4 cover" style="background-image: url(<?=$PATH.'/images/reg_quiz.jpg'?>)">
+        <div class="px-4 pt-0 pb-4 cover" style="background-image: url(<?= $PATH . '/images/reg_quiz.jpg' ?>)">
           <div class="media align-items-end profile-head">
             <div class="profile mr-3">
-              <img src="<?=$PATH.'/images/account_image.png'?>" alt="Profilna slikac" width="130" class="rounded mb-2 img-thumbnail">
+              <img src="<?= $PATH . '/images/account_image.png' ?>" alt="Profilna slikac" width="130" class="rounded mb-2 img-thumbnail">
             </div>
             <div class="media-body mb-5">
-              <h4 class="mt-0 mb-0 pb-3 profile_name"><?=$userInfo['first_name']?> <?=$userInfo['last_name']?></h4>
-              <a href="<?= $PATH.'/pages/profile/settings.php'?>" class="btn btn-sm btn-block edit_profile_btn" >Uredi profil</a>
+              <h4 class="mt-0 mb-0 pb-3 profile_name"><?= $userInfo['first_name'] ?> <?= $userInfo['last_name'] ?></h4>
+              <a href="<?= $PATH . '/pages/profile/settings.php' ?>" class="btn btn-sm btn-block edit_profile_btn">Uredi profil</a>
             </div>
           </div>
         </div>
@@ -52,20 +52,20 @@ $quiz = getQuizDetails($user, $conn);
           <div class="p-4 d-flex justify-content-start text-center">
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?=$userInfo['registration_date']?></h5><small class="text-muted">Nalog kreiran</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $userInfo['registration_date'] ?></h5><small class="text-muted">Nalog kreiran</small>
               </li>
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?=$userInfo['last_log_in']?></h5><small class="text-muted">Poslednji put aktivan</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $userInfo['last_log_in'] ?></h5><small class="text-muted">Poslednji put aktivan</small>
               </li>
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?=$userInfo['date_of_birth']?></h5><small class="text-muted">Datum rodjenja</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $userInfo['date_of_birth'] ?></h5><small class="text-muted">Datum rodjenja</small>
               </li>
             </ul>
           </div>
           <div class="p-4 d-flex justify-content-end text-center">
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?=$quiz?></h5><small class="text-muted">Kvizova odigrano</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $quiz ?></h5><small class="text-muted">Kvizova odigrano</small>
               </li>
               <li class="list-inline-item">
                 <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted">Pitanja dodato</small>
@@ -79,9 +79,45 @@ $quiz = getQuizDetails($user, $conn);
         <div class="px-4 py-3">
           <h5 class="mb-0">O meni</h5>
           <div class="p-4 rounded shadow-sm bg-light">
-            <p class="font-italic mb-0"><?=$userInfo['description']?></p>
+            <p class="font-italic mb-0"><?= $userInfo['description'] ?></p>
           </div>
         </div>
+        <div class="px-4 py-3">
+        <h5 class="mb-0">Dostignuća</h5>
+        </div>
+        <?php for ($i = 0; $i < sizeof($achievements['title']); $i++) : ?>
+          <?php
+            $class = 'achievement_locked';
+            if($achievements['hasAchievement'][$i]){
+              $class = 'achievement_unlocked';
+            }  
+          ?>
+          <section>
+            <div class="container">
+              <div class="card">
+                <div class="row <?=$class?>">
+                  <div class="col-md-1 col-sm-3 col-xs-3">
+                    <img src="<?=$PATH.'/images/achievements/'.$achievements['image'][$i]?>" class="w-100 w-xs-50">
+                  </div>
+                  <div class="col-md-11 col-sm-9 col-xs-6">
+                    <div class="card-block">
+                      <h6 class="achievement_title card-title"><?= ($achievements['title'][$i]) ?></h6>
+                      <div class="d-lg-flex justify-content-between inline">
+                        <p><?= ($achievements['description'][$i]) ?></p>
+                        <?php if($class='achievement_unlocked'): ?>
+                          <small class="text-muted"><?= $achievements['dateUnlocked'][$i]?></small>
+                        <?php endif; ?>
+                      </div>
+                      
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+        <?php endfor; ?>
+
         <div class="py-4 px-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <h5 class="mb-0">Pokušaji kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>

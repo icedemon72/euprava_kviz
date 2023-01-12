@@ -43,8 +43,8 @@
       array_push($errors, 'Pogrešan unos u polje "Lozinka"!');
     } else if(!checkIfPasswordIsCorrect($input['uname'], $input['pass'], $conn)) {
       array_push($errors, 'Pogrešna lozinka!');
-    } else {
-      $_SESSION['username'] = $input['uname'];
+    } else {      
+      // Last log in update
       $date = date_format(date_create(), 'Y-m-d');
       $stmt = $conn->prepare(
         "UPDATE users
@@ -54,6 +54,37 @@
 
       $stmt->bind_param('ss', $date, $input['uname']);
       $stmt->execute();
+
+      // Checking if admin:
+      $user_id = 0;
+      $stmt = $conn->prepare(
+        "SELECT id
+        FROM users
+        WHERE users.username = ?;"
+      );
+
+      $stmt->bind_param('s', $input['uname']);
+      $stmt->execute();
+      $res = $stmt->get_result();
+      
+      while($row = $res->fetch_assoc()) {
+        $user_id = $row['id'];
+      }
+
+      $stmt = $conn->prepare(
+        "SELECT *
+        FROM is_admin
+        WHERE is_admin.id = (SELECT MAX(is_admin.id) FROM is_admin) 
+        AND is_admin.users_id = ? AND is_admin.status = 1;"
+      );
+      
+      $stmt->bind_param('i', $user_id);
+      $stmt->execute();
+      $stmt->store_result();
+
+      $_SESSION['admin'] = ($stmt->num_rows() > 0);
+      $_SESSION['username'] = $input['uname'];
+
     }
 
     return $errors;

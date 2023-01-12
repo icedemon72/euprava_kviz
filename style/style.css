@@ -154,3 +154,72 @@ input.dropdown-item {
 .edit_profile_btn:hover {
   background-color: #e7b900;
 }
+
+.achievement_locked img {
+  filter: grayscale(100%) contrast(1.5) !important;
+}
+
+.achievement_unlocked .achievement_title {
+  color: #00465F;
+}
+
+/* Profile settings */
+
+.account-settings .user-profile {
+  margin: 0 0 1rem 0;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+  margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+  width: 90px;
+  height: 90px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+  margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.account-settings .about {
+  margin: 1rem 0 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.card {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 0;
+  margin-bottom: 1rem;
+}
+.form-control {
+  border: 1px solid #596280;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  font-size: .825rem;
+}
+
+.change_profile_btn {
+  color:#FFCD00;
+  background-color: #002C3C;
+  border: none;
+}
+
+.change_profile_btn:hover {
+  color:#FFCD00;
+  background-color: #00465F;
+}
+
+textarea {
+  width: 200px;
+  max-height: 100px;
+}

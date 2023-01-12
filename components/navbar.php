@@ -5,7 +5,6 @@
     }
     return $username;
   }
-
   function generateNavbar($active, $PATH) {
     $isActive = array('', '', '');
     if($active == 'pocetna') {
@@ -15,7 +14,6 @@
     } else if ($active == 'o nama') {
       $isActive[2] = 'active';
     }
-
 ?>
 
 <nav class="navbar navbar-expand-lg navbar_main">
@@ -67,6 +65,11 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
+              <?php if($_SESSION['admin']):?>
+                <li style="background-color:#69B578">
+                  <a class="dropdown-item" href="<?=$PATH.'/pages/profile/my_profile.php' ?>">Admin panel</a>
+                </li>
+              <?php endif; ?>
               <li>
                 <a class="dropdown-item" href="<?=$PATH.'/pages/profile/my_profile.php' ?>">Moj profil</a>
               </li>
