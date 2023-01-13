@@ -35,7 +35,7 @@
             KVIZ
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="<?=$PATH.'/pages/quiz.php'?>">IGRAJ!</a></li>
+            <li><a class="dropdown-item" href="<?=$PATH.'/pages/select_category.php'?>">IGRAJ!</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -67,7 +67,7 @@
               </li>
               <?php if($_SESSION['admin']):?>
                 <li style="background-color:#69B578">
-                  <a class="dropdown-item" href="<?=$PATH.'/pages/profile/my_profile.php' ?>">Admin panel</a>
+                  <a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php' ?>">Admin panel</a>
                 </li>
               <?php endif; ?>
               <li>

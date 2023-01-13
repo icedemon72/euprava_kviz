@@ -38,7 +38,7 @@ if (isset($_POST['update'])) {
         updateUserPassword($inputValues['new_password'], $conn); 
         $check2 = true;
       }
-      $success = $check1 && $check2;
+      $success = $check1 || $check2;
     }
 }
 
@@ -112,8 +112,8 @@ if (isset($_POST['update'])) {
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-group">
-                    <label for="date_of_birth"">Datum rodjenja</label>
-                    <input type="date" class="form-control" id="date_of_birth" value="<?= (new DateTime($userInfo['date_of_birth']))->format('Y-m-d') ?>" name="date_of_birth"" />
+                    <label for="date_of_birth">Datum rodjenja</label>
+                    <input type="date" class="form-control" id="date_of_birth" value="<?= (new DateTime($userInfo['date_of_birth']))->format('Y-m-d') ?>" name="date_of_birth" />
                   </div>
                 </div>
               </div>

@@ -81,7 +81,6 @@
       $stmt->bind_param('i', $user_id);
       $stmt->execute();
       $stmt->store_result();
-
       $_SESSION['admin'] = ($stmt->num_rows() > 0);
       $_SESSION['username'] = $input['uname'];
 

@@ -104,16 +104,6 @@ input.dropdown-item {
   color: #FFCD00 !important;
 }
 
-@media only screen and (max-width: 991px) {
-  .reg_image {
-    display: none;
-  }
-
-  .registration_container {
-    width: 100%;
-  }
-}
-
 /* Profile */
 
 .profile_body {
@@ -138,12 +128,7 @@ input.dropdown-item {
   background-repeat: no-repeat
 }
 
-@media only screen and (max-width: 991px) {
-  .cover {
-    background-image: none;
-    background-color: #002C3C;
-  }
-}
+
 
 .edit_profile_btn {
   color: #00465F;
@@ -222,4 +207,83 @@ input.dropdown-item {
 textarea {
   width: 200px;
   max-height: 100px;
+}
+
+/* categories */
+
+.card_category:hover {
+  cursor: pointer;
+}
+
+.card_category:hover .team-style1 .team-info {
+  background-color: #ffcc00ad;
+}
+
+.card_category:hover .team-style1 .team-info h6 {
+  color: #002C3C;
+}
+
+.card_category:hover .team-style1 .team-info small {
+  color: #002C3C;
+}
+
+.team-style1 {
+  position: relative;
+}
+
+.team-style1 .team-img {
+  position: relative;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  text-align: center;
+}
+
+.team-style1 .team-img img {
+  display: inline-block;
+}
+
+.team-style1 .team-info {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 20px;
+  background-color: #002C3C;
+  text-align: center;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  transition: 0.2s ease-in;
+}
+
+.team-style1 .team-info h6 {
+  display: block;
+  color: #fff;
+  text-transform: capitalize;
+  transition: 0.2s ease-in;
+}
+
+.team-style1 .team-info small {
+  display: block;
+  color: #FFCD00;
+  transition: 0.2s ease-in;
+}
+
+/* media queries */
+@media only screen and (max-width: 991px) {
+  .reg_image {
+    display: none;
+  }
+
+  .registration_container {
+    width: 100%;
+  }
+
+  .cover {
+    background-image: none;
+    background-color: #002C3C;
+  }
+
+  .team-style1 .team-info {
+    padding: 15px;
+  }
 }

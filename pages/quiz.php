@@ -1,16 +1,8 @@
 <?php
   session_start();
-  include './quiz_functions.php';
-  $server = 'localhost';
-  $user = 'root';
-  $pw = '';
-  $db = 'kviz';
-  $conn = new mysqli($server, $user, $pw, $db);
-
-  if($conn->connect_error) {
-    echo $conn->connect_error;
-    die();
-  }
+  require_once('./quiz_functions.php');
+  require_once('./../auth/connect_db.php'); 
+  require_once('./../auth/settings.php'); 
 
   $quizType = "informatika";
   $quizQuestionNumber = 5;
@@ -47,5 +39,4 @@
   $_SESSION['quizType'] = $quizType;
   $_SESSION['quizSelectedIdArray'] = $quizSelectedIdArray;
   $_SESSION['quizAnswerArray'] = $quizAnswersArray;
-  $conn->close();
 ?>
