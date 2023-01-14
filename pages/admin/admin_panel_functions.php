@@ -49,6 +49,9 @@
       array_push($resultArray['registration_date'], (new DateTime($row['registration_date']))->format('d. M Y.'));
     }
 
+    $stmt->free_result();
+    $stmt->close();
+
     return $resultArray;
   }
 
@@ -58,10 +61,13 @@
       FROM users;"
     );
     $stmt->execute();
-    $res = $stmt->get_result();
+    $stmt->store_result();
 
-    while($row = $res->fetch_assoc()) {
-      return $row['count'];
-    }
+    $count = $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return $count;
   }
 ?>

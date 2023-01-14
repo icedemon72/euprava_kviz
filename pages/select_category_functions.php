@@ -1,7 +1,9 @@
 <?php
   function getCategories($conn) {
     $stmt = $conn->prepare(
-      "SELECT *
+      "SELECT quiz_type.id, quiz_type.name, 
+        quiz_type.times_played, quiz_type.image, 
+        quiz_type.score, quiz_type.active
       FROM quiz_type
       LEFT JOIN questions ON  quiz_type.id = questions.quiz_type_id
       HAVING COUNT(questions.quiz_type_id) > 30 AND quiz_type.active = 1;"
@@ -24,6 +26,9 @@
       array_push($resArray['image'], $row['image']);
       array_push($resArray['score'], $row['score']);
     }
+
+    $stmt->free_result();
+    $stmt->close();
 
     return $resArray;
   }

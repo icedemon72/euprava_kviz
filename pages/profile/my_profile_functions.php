@@ -15,6 +15,10 @@
     while($row = $result->fetch_assoc()) {
       $id = $row['id'];
     }
+
+    $stmt->free_result();
+    $stmt->close();
+
     return $id;
   }
 
@@ -34,11 +38,16 @@
       'first_name', 'last_name', 'date_of_birth', 'email',
       'registration_date', 'last_log_in', 'description'
     );
+
     while($row = $result->fetch_assoc()) {
       foreach($keysArray as $key) {
         $resultToReturn[$key] = $row[$key];
       }
     }
+
+    $stmt->free_result();
+    $stmt->close();
+
     $resultToReturn['registration_date'] = (new DateTime($resultToReturn['registration_date']))->format('d. M Y.');
     $resultToReturn['last_log_in'] = (new DateTime($resultToReturn['last_log_in']))->format('d. M Y.');
     $resultToReturn['date_of_birth'] = (new DateTime($resultToReturn['date_of_birth']))->format('d. M Y.');
@@ -50,7 +59,7 @@
     return $resultToReturn;
   }
   
-  function getQuizDetails($user, $conn) {
+  /*CHANGES NEEDED*/function getQuizDetails($user, $conn) {
     $id = getIdByUser($user, $conn);
     $stmt = $conn->prepare(
       "SELECT *
@@ -91,6 +100,9 @@
       array_push($resArray['image'], $row['image']);
     }
 
+    $stmt->free_result();
+    $stmt->close();
+
     $resArray['hasAchievement'] = array_fill(0, sizeof($resArray['title']), 0);
     $resArray['dateUnlocked'] = array_fill(0, sizeof($resArray['title']), NULL);
 
@@ -111,6 +123,9 @@
       $resArray['hasAchievement'][$ach] = $row['status'];
       $resArray['dateUnlocked'][$ach] =  (new DateTime($row['date_unlocked']))->format('d. M Y. H:i');
     }
+
+    $stmt->free_result();
+    $stmt->close();
 
     return $resArray;
   }

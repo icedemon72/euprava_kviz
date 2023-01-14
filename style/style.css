@@ -204,7 +204,7 @@ input.dropdown-item {
   background-color: #00465F;
 }
 
-textarea {
+#description {
   width: 200px;
   max-height: 100px;
 }

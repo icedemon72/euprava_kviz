@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2023 at 05:14 PM
+-- Generation Time: Jan 14, 2023 at 07:00 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -392,15 +392,44 @@ CREATE TABLE `quiz_type` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `times_played` int(11) NOT NULL DEFAULT 0,
-  `score` decimal(10,2) NOT NULL DEFAULT 0.00
+  `score` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `image` varchar(255) NOT NULL DEFAULT 'reg_quiz.jpg',
+  `active` bit(1) NOT NULL DEFAULT b'1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `quiz_type`
 --
 
-INSERT INTO `quiz_type` (`id`, `name`, `times_played`, `score`) VALUES
-(1, 'Informatika', 0, '0.00');
+INSERT INTO `quiz_type` (`id`, `name`, `times_played`, `score`, `image`, `active`) VALUES
+(1, 'Informatika', 0, '0.00', 'categories/informatics.jpg', b'1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quiz_type_requests`
+--
+
+CREATE TABLE `quiz_type_requests` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `users_id` int(11) DEFAULT NULL,
+  `date_created` datetime DEFAULT NULL,
+  `date_accessed` datetime DEFAULT NULL,
+  `active` bit(1) DEFAULT b'1',
+  `is_admin_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quiz_type_requests`
+--
+
+INSERT INTO `quiz_type_requests` (`id`, `name`, `description`, `users_id`, `date_created`, `date_accessed`, `active`, `is_admin_id`) VALUES
+(1, NULL, NULL, 1, '2023-01-14 17:33:55', NULL, b'1', NULL),
+(2, NULL, NULL, 1, '2023-01-14 17:42:58', NULL, b'1', NULL),
+(3, 'hellothere', '1234', 1, '2023-01-14 18:34:07', NULL, b'1', NULL),
+(4, 'xd', 'sdadas', 1, '2023-01-14 18:35:55', NULL, b'1', NULL);
 
 -- --------------------------------------------------------
 
@@ -426,7 +455,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-12', 'Nema opisa... :('),
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-14', 'Nema opisa... :('),
 (2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-12', NULL),
 (3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
 (4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
@@ -443,7 +472,7 @@ CREATE TABLE `user_has_achievement` (
   `users_id` int(11) DEFAULT NULL,
   `achievements_id` int(11) DEFAULT NULL,
   `status` bit(1) DEFAULT b'0',
-  `date_unlocked` datetime DEFAULT NULL
+  `date_unlocked` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -451,7 +480,8 @@ CREATE TABLE `user_has_achievement` (
 --
 
 INSERT INTO `user_has_achievement` (`id`, `users_id`, `achievements_id`, `status`, `date_unlocked`) VALUES
-(1, 1, 1, b'1', '2023-01-12 13:48:00');
+(1, 1, 1, b'1', '2023-01-12 13:48:00'),
+(2, 1, 10, b'1', '2023-01-13 02:10:00');
 
 --
 -- Indexes for dumped tables
@@ -497,6 +527,14 @@ ALTER TABLE `quiz_playing`
 --
 ALTER TABLE `quiz_type`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quiz_type_requests`
+--
+ALTER TABLE `quiz_type_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_quiz_type_requests_users` (`users_id`),
+  ADD KEY `FK_quiz_type_requests_is_admin` (`is_admin_id`);
 
 --
 -- Indexes for table `users`
@@ -555,6 +593,12 @@ ALTER TABLE `quiz_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `quiz_type_requests`
+--
+ALTER TABLE `quiz_type_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -564,7 +608,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_has_achievement`
 --
 ALTER TABLE `user_has_achievement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -594,6 +638,13 @@ ALTER TABLE `questions`
 ALTER TABLE `quiz_playing`
   ADD CONSTRAINT `FK_quiz_playing_quiz_type` FOREIGN KEY (`quiz_type_id`) REFERENCES `quiz_type` (`id`),
   ADD CONSTRAINT `FK_quiz_playing_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `quiz_type_requests`
+--
+ALTER TABLE `quiz_type_requests`
+  ADD CONSTRAINT `FK_quiz_type_requests_is_admin` FOREIGN KEY (`is_admin_id`) REFERENCES `is_admin` (`users_id`),
+  ADD CONSTRAINT `FK_quiz_type_requests_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `user_has_achievement`

@@ -79,7 +79,7 @@ if (isset($_POST['update'])) {
                 </div>
                 <div class="about">
                   <h6 class="mb-2 text-primary">O meni</h6>
-                  <textarea name="description"><?= $userInfo['description'] ?></textarea>
+                  <textarea id="description" name="description"><?= $userInfo['description'] ?></textarea>
                 </div>
               </div>
             </div>

@@ -10,7 +10,11 @@
     $stmt->execute();
     $stmt->store_result();
 
-    return ($stmt->num_rows() > 0);
+    $count = $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+    return ($count > 0);
   }
 
   function checkIfUsernameExists($username, $conn) {
@@ -24,7 +28,12 @@
     $stmt->execute();
     $stmt->store_result();
 
-    return($stmt->num_rows() > 0);
+    $count = $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return($count > 0);
   }
 
   function checkIfValidInput($inputValues, $conn) {
@@ -36,6 +45,8 @@
     } else {
       if(strlen($inputValues['username'] < 3)) {
         array_push($errors, 'Korisničko ime mora imati barem 3 karaktera!');
+      } else if (strlen($inputValues['username']) > 255) {
+        array_push($errors, 'Korisničko ime može sadržati maksimalno 255 karaktera!');
       }
       
       if(preg_match('/[^a-z\-0-9_\.]/i', $inputValues['username'])) {
@@ -56,13 +67,18 @@
     } 
     else if (!preg_match('/([\w\-]+\@[\w\-]+\.[\w\-]+)/', $inputValues['email'])) {
       array_push($errors, 'Nevažeći e-mail!');
+    } 
+    else if(strlen($inputValues['email']) > 255) {
+      array_push($errors, 'Email adresa može sadržati maksimalno 255 karaktera!');
     }
 
     // password check
     if(strlen($inputValues['password']) < 6) {
       array_push($errors, 'Lozinka je prekratka!'); 
     } else {
-    
+      if(strlen($inputValues['password']) > 255) {
+        array_push($errors, 'Lozinka može sadržati maksimalno 255 karaktera!'); 
+      }
       if($inputValues['password'] != @$inputValues['repeat_password']) {
         array_push($errors, 'Lozinke se ne poklapaju!'); 
       }
@@ -73,6 +89,8 @@
       array_push($errors, 'Pogrešan unos u "ime" polje!');
     } else if (!preg_match('/[a-zA-Z \-]/', $inputValues['firstname'])) {
       array_push($errors, 'Ime može sadržati samo slova!');
+    } else if (strlen($inputValues['firstname']) > 255) {
+      array_push($errors, 'Ime može sadržati maksimalno 255 karaktera!');
     }
 
     // last name check
@@ -80,6 +98,8 @@
       array_push($errors, 'Pogrešan unos u "prezime" polje!');
     } else if (!preg_match('/[a-zA-Z \-]/', $inputValues['lastname'])) {
       array_push($errors, 'Prezime može sadržati samo slova!');
+    } else if (strlen($inputValues['lastname']) > 255) {
+      array_push($errors, 'Prezime može sadržati maksimalno 255 karaktera!');
     }
 
     // date check
@@ -112,6 +132,7 @@
       $input['lastname'], $input['dob'], $register_time, $register_time
     );
     $stmt->execute();
-
+    $stmt->free_result();
+    $stmt->close();
   }
 ?>

@@ -11,7 +11,12 @@
     $stmt->execute();
     $stmt->store_result();
 
-    return($stmt->num_rows == 1);
+    $count = $stmt->num_rows();
+    
+    $stmt->free_result();
+    $stmt->close();
+
+    return($count == 1);
   }
 
   function checkIfPasswordIsCorrect($username, $password, $conn) {

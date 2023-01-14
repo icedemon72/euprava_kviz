@@ -10,7 +10,12 @@
     $stmt->execute();
     $stmt->store_result();
 
-    return ($stmt->num_rows() > 0);
+    $count = $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return ($count > 0);
   }
 
   function checkPassword($username, $password, $conn) {
@@ -25,7 +30,12 @@
     $stmt->execute();
     $stmt->store_result();
 
-    return($stmt->num_rows == 1);
+    $count = $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return($count == 1);
 
   }
   
@@ -53,6 +63,9 @@
       else if (!preg_match('/([\w\-]+\@[\w\-]+\.[\w\-]+)/', $inputValues['email'])) {
         array_push($errors, 'Nevažeći e-mail!');
       }
+      else if(strlen($inputValues['email']) > 255) {
+        array_push($errors, 'Email adresa može sadržati maksimalno 255 karaktera!');
+      }
     }
 
     // password check
@@ -62,21 +75,22 @@
       } else {
         if(strlen($inputValues['new_password']) < 6) {
           array_push($errors, 'Nova lozinka je prekratka!'); 
-        } else {
-        
-          if($inputValues['password'] == @$inputValues['new_password']) {
+        } else if(strlen($inputValues['new_password']) > 255) {
+          array_push($errors, 'Lozinka može sadržati maksimalno 255 karaktera!'); 
+        } else if($inputValues['password'] == @$inputValues['new_password']) {
             array_push($errors, 'Lozinke se poklapaju!'); 
-          }
         }
-      }
-
+       }
     }
+
     
     // first name check
     if(!strlen($inputValues['first_name'])) {
       array_push($errors, 'Pogrešan unos u "ime" polje!');
     } else if (!preg_match('/[a-zA-Z \-]/', $inputValues['first_name'])) {
       array_push($errors, 'Ime može sadržati samo slova!');
+    } else if (strlen($inputValues['first_name']) > 255) {
+      array_push($errors, 'Ime može sadržati maksimalno 255 karaktera!');
     }
 
     // last name check
@@ -84,6 +98,8 @@
       array_push($errors, 'Pogrešan unos u "prezime" polje!');
     } else if (!preg_match('/[a-zA-Z \-]/', $inputValues['last_name'])) {
       array_push($errors, 'Prezime može sadržati samo slova!');
+    } else if (strlen($inputValues['last_name']) > 255) {
+      array_push($errors, 'Prezime može sadržati maksimalno 255 karaktera!');
     }
 
     // date check
@@ -111,6 +127,8 @@
     $stmt->bind_param('ssssss', $inputValues['first_name'], $inputValues['last_name'], $inputValues['email'],
     $inputValues['date_of_birth'], $inputValues['description'], $_SESSION['username']);
     $stmt->execute();
+    $stmt->free_result();
+    $stmt->close();
   }
 
   function updateUserPassword($new_password, $conn) {
@@ -121,6 +139,8 @@
     );
     $stmt->bind_param('ss', $new_password, $_SESSION['username']);
     $stmt->execute();
+    $stmt->free_result();
+    $stmt->close();
   }
 
 ?>

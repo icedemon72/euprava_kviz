@@ -77,6 +77,8 @@
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $answersResultQuery = $stmt->get_result();
+    $stmt->free_result();
+    $stmt->close();
     return $answersResultQuery;
   }
 
