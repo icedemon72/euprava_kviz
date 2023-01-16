@@ -1,34 +1,34 @@
 <?php
-session_start();
-require_once('./../../components/navbar.php');
-require_once('./../../auth/settings.php');
-require_once('./../../auth/connect_db.php');
-require_once('./add_category_functions.php');
+  session_start();
+  require_once('./../../components/navbar.php');
+  require_once('./../../auth/settings.php');
+  require_once('./../../auth/connect_db.php');
+  require_once('./add_category_functions.php');
 
-$success = false;
-$errorMessage = '';
-$inputValues = array();
-if(isset($_POST['submitCategory'])) {
-  if(!isset($_SESSION['username'])) {
-    header('Location: ./../../login.php');
-    exit();
-  } 
-  foreach($_POST as $key => $value) {
-    $inputValues[$key] = trim(stripslashes($value));
+  $success = false;
+  $errorMessage = '';
+  $inputValues = array();
+  if(isset($_POST['submitCategory'])) {
+    if(!isset($_SESSION['username'])) {
+      header('Location: ./../../login.php');
+      exit();
+    } 
+    foreach($_POST as $key => $value) {
+      $inputValues[$key] = trim(stripslashes($value));
+    }
+
+    $errors = checkIfValidCategory($inputValues, $conn);
+
+    foreach($errors as $err) {
+      $errorMessage .= '<li>' . $err . '</li>';
+    }
+
+    if(sizeof($errors) == 0) { // no user input errors
+      insertCategoryRequest($inputValues, $conn);
+      $success = true;
+      $inputValues = array();
+    }
   }
-
-  $errors = checkIfValidCategory($inputValues, $conn);
-
-  foreach($errors as $err) {
-    $errorMessage .= '<li>' . $err . '</li>';
-  }
-
-  if(sizeof($errors) == 0) { // no user input errors
-    insertCategoryRequest($inputValues, $conn);
-    $success = true;
-    $inputValues = array();
-  }
-}
 
 ?>
 
@@ -87,7 +87,7 @@ if(isset($_POST['submitCategory'])) {
               if ($success) : ?>
                 <div class="row d-flex justify-content-center my-3">
                   <div class="d-flex col-lg-4 justify-content-center mx-4 alert alert-success" role="alert">
-                    <p class="success"><?= 'Uspešno ažuriranje, redirektujem na profil...' ?></p>
+                    <p class="success"><?= 'Uspešno ažuriranje, redirektujem na dodavanje pitanja...' ?></p>
                   </div>
                 </div>
               <?php endif; ?>
