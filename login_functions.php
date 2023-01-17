@@ -29,9 +29,11 @@
 
     $stmt->bind_param('ss', $username, $password);
     $stmt->execute();
-    $stmt->store_result();
+    $count = $stmt->store_result();
+    $stmt->free_result();
+    $stmt->close();
 
-    return($stmt->num_rows == 1);
+    return($count == 1);
   }
 
   function checkIfValidInputLogin($input, $conn) {
@@ -59,6 +61,8 @@
 
       $stmt->bind_param('ss', $date, $input['uname']);
       $stmt->execute();
+      $stmt->free_result();
+      $stmt->close();
 
       // Checking if admin:
       $user_id = 0;
@@ -88,7 +92,8 @@
       $stmt->store_result();
       $_SESSION['admin'] = ($stmt->num_rows() > 0);
       $_SESSION['username'] = $input['uname'];
-
+      $stmt->free_result();
+      $stmt->close();
     }
 
     return $errors;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2023 at 07:00 PM
+-- Generation Time: Jan 17, 2023 at 09:43 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -267,6 +267,32 @@ INSERT INTO `answers` (`id`, `text`, `correct`, `questions_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `answers_existing_requests`
+--
+
+CREATE TABLE `answers_existing_requests` (
+  `id` int(11) NOT NULL,
+  `text` varchar(255) DEFAULT NULL,
+  `correct` bit(1) DEFAULT NULL,
+  `questions_existing_requests_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers_not_existing_requests`
+--
+
+CREATE TABLE `answers_not_existing_requests` (
+  `id` int(11) NOT NULL,
+  `text` varchar(255) DEFAULT NULL,
+  `correct` bit(1) DEFAULT NULL,
+  `questions_not_existing_requests_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `is_admin`
 --
 
@@ -296,7 +322,6 @@ INSERT INTO `is_admin` (`id`, `users_id`, `date_assigned`, `date_resigned`, `que
 CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
   `text` varchar(256) NOT NULL,
-  `points_value` decimal(10,2) NOT NULL DEFAULT 1.00,
   `type` varchar(5) NOT NULL,
   `quiz_type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -305,67 +330,103 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `text`, `points_value`, `type`, `quiz_type_id`) VALUES
-(3, 'Kako se zvao prvi kompjuterski virus?', '1.00', 'radio', 1),
-(4, 'Šta je \'malware\'?', '1.00', 'radio', 1),
-(5, 'Šta je od navedenog tačno?', '1.00', 'chbox', 1),
-(7, 'Dopuni značenje skraćenice PDF', '1.00', 'input', 1),
-(8, 'Šta od navedenog nije operativni sistem?', '1.00', 'radio', 1),
-(9, 'Kompjuterska memorija je podeljena i adresirana kao ćelije veličine od?', '1.00', 'radio', 1),
-(10, 'Šta znači RAM?', '1.00', 'input', 1),
-(11, 'Šta znači ROM?', '1.00', 'radio', 1),
-(12, 'U većini programskih jezika šta predstavlja && znak?', '1.00', 'radio', 1),
-(13, 'U sledećem kodu (u programskom jeziku C) šta će sve biti ispisano?\r\n    <code>for(int i = 1; i < 3; i++) {\r\n		printf(\'%d\n\', i);\r\n	}</code>\r\n     ', '1.00', 'chbox', 1),
-(14, 'Dopuni sledeći kod (u programskom jeziku Python) da bi izvršio ispis broja 5 na ekranu:', '1.00', 'input', 1),
-(15, 'Kojim slovom se najčešće označava primarna particija hard diska na personalnim računarima?', '1.00', 'input', 1),
-(16, 'Šta znači CPU?', '1.00', 'radio', 1),
-(17, 'Koji deo računara sadrži CPU, RAM i konektore za spoljašnje uredjaje?', '1.00', 'radio', 1),
-(18, 'Šta znači OOP?', '1.00', 'input', 1),
-(19, 'Šta znači skraćenica LAN?', '1.00', 'radio', 1),
-(20, 'Termin hardver predstavlja?', '1.00', 'radio', 1),
-(21, 'Koji je, po ISO standardu, tačan prikaz datuma?', '1.00', 'radio', 1),
-(22, 'Šta označava HTML?', '1.00', 'input', 1),
-(23, 'Kako, u većini programskih jezika, pristupa prvom elementu niza? ', '1.00', 'radio', 1),
-(24, 'CLI predstavlja?', '1.00', 'radio', 1),
-(25, 'Šta je datoteka (fajl)?', '1.00', 'radio', 1),
-(26, 'Izaberite tačne tvrdnje:', '1.00', 'chbox', 1),
-(27, 'Izaberite tačne tvrdnje:', '1.00', 'chbox', 1),
-(28, 'Šta je IDE?', '1.00', 'radio', 1),
-(29, 'Šta kao rezultat daje sledeći kod (u C++): <code>(true && !false) && !(!true)</code>?', '1.00', 'radio', 1),
-(30, 'Šta znači DNS? ', '1.00', 'input', 1),
-(31, 'Šta znači SMTP?', '1.00', 'input', 1),
-(32, 'Šta znači HTTP?', '1.00', 'input', 1),
-(33, 'Koji protokol je sigurniji?', '1.00', 'radio', 1),
-(34, 'Šta znači GPU?', '1.00', 'radio', 1),
-(35, 'Softver predstavlja programske celine koje se sastoje iz dva dela i to:', '1.00', 'chbox', 1),
-(36, 'U decimalnom brojnom sistemu, binarno 1010 je?', '1.00', 'radio', 1),
-(37, 'Koje klase postoje u klasnom sistemu subnet maski?', '1.00', 'radio', 1),
-(38, 'Šta je VPN?', '1.00', 'input', 1),
-(39, 'Koji od ponudjenih pojmova su dva osnovna tipa kriptografije?', '1.00', 'chbox', 1),
-(40, 'Šta je PKI?', '1.00', 'input', 1),
-(41, 'Na šta se odnosi pojam XSS?', '1.00', 'radio', 1),
-(42, 'Koji jezik se, najčešće, koristi prilikom XSS?', '1.00', 'radio', 1),
-(43, 'Šta je od navedenog svrstano u \'malware\'?', '1.00', 'chbox', 1),
-(44, 'Za šta je, od navedenog, zaduženo sertifikaciono telo?', '1.00', 'chbox', 1),
-(45, 'Šta, u web programiranju, predstavlja izraz DOM?', '1.00', 'input', 1),
-(46, 'Koji od navedenih komandi je za ispis teksta \'hello\' u javascript-u?', '1.00', 'radio', 1),
-(47, 'Ako nizovi počinju od 1, mi radimo u kom od navedenih jezika?', '1.00', 'radio', 1),
-(48, 'Koji od sledećih jezika ima tačno navedene ekstenzije datoteka?', '1.00', 'chbox', 1),
-(49, 'Programi za obradu slika koji rade na principu piksela zovu se?', '1.00', 'radio', 1),
-(50, 'U programskom jeziku Python komentare označavamo sa?', '1.00', 'radio', 1),
-(51, 'Kako se u CSS-u pristupa nekom elementu sa id-em <code>idPrimer</code>?', '1.00', 'radio', 1),
-(52, 'Kako se u CSS-u pristupa nekom elementu sa klasom <code>klasa_primer</code>?', '1.00', 'radio', 1),
-(53, 'Ako koristimo operacije PUSH i POP mi imamo veze sa kojim tipom podataka?', '1.00', 'radio', 1),
-(54, 'Koji protokol se koristi prilikom \'torrent-ovanja\'?', '1.00', 'radio', 1),
-(55, 'Koliko je x na kraju ovog koda u javascript-u?\r\n     <code>\r\n     let x = 5;\r\n     if(x % 2 == 0) {\r\n     x += 10;\r\n     } else {\r\n     x *= 2;\r\n     }\r\n     </code>', '1.00', 'input', 1),
-(56, 'Šta je od sledećih tačno?', '1.00', 'chbox', 1),
-(57, 'Kojom jedinicom se izražava radni takt procesora?', '1.00', 'radio', 1),
-(58, 'Šta znači skraćenica BIOS?', '1.00', 'input', 1),
-(59, 'Memorija koja gubi podatke pri isključenju računara je?', '1.00', 'radio', 1),
-(60, 'Čemu služe programski prevodioci?', '1.00', 'radio', 1),
-(61, 'Šta je multimedija?', '1.00', 'radio', 1),
-(62, 'Šta sadrži \'.mp3\' datoteka?', '1.00', 'radio', 1),
-(63, 'Šta znači SQL?', '1.00', 'radio', 1);
+INSERT INTO `questions` (`id`, `text`, `type`, `quiz_type_id`) VALUES
+(3, 'Kako se zvao prvi kompjuterski virus?', 'radio', 1),
+(4, 'Šta je \'malware\'?', 'radio', 1),
+(5, 'Šta je od navedenog tačno?', 'chbox', 1),
+(7, 'Dopuni značenje skraćenice PDF', 'input', 1),
+(8, 'Šta od navedenog nije operativni sistem?', 'radio', 1),
+(9, 'Kompjuterska memorija je podeljena i adresirana kao ćelije veličine od?', 'radio', 1),
+(10, 'Šta znači RAM?', 'input', 1),
+(11, 'Šta znači ROM?', 'radio', 1),
+(12, 'U većini programskih jezika šta predstavlja && znak?', 'radio', 1),
+(13, 'U sledećem kodu (u programskom jeziku C) šta će sve biti ispisano?\r\n    <code>for(int i = 1; i < 3; i++) {\r\n		printf(\'%d\n\', i);\r\n	}</code>\r\n     ', 'chbox', 1),
+(14, 'Dopuni sledeći kod (u programskom jeziku Python) da bi izvršio ispis broja 5 na ekranu:', 'input', 1),
+(15, 'Kojim slovom se najčešće označava primarna particija hard diska na personalnim računarima?', 'input', 1),
+(16, 'Šta znači CPU?', 'radio', 1),
+(17, 'Koji deo računara sadrži CPU, RAM i konektore za spoljašnje uredjaje?', 'radio', 1),
+(18, 'Šta znači OOP?', 'input', 1),
+(19, 'Šta znači skraćenica LAN?', 'radio', 1),
+(20, 'Termin hardver predstavlja?', 'radio', 1),
+(21, 'Koji je, po ISO standardu, tačan prikaz datuma?', 'radio', 1),
+(22, 'Šta označava HTML?', 'input', 1),
+(23, 'Kako, u većini programskih jezika, pristupa prvom elementu niza? ', 'radio', 1),
+(24, 'CLI predstavlja?', 'radio', 1),
+(25, 'Šta je datoteka (fajl)?', 'radio', 1),
+(26, 'Izaberite tačne tvrdnje:', 'chbox', 1),
+(27, 'Izaberite tačne tvrdnje:', 'chbox', 1),
+(28, 'Šta je IDE?', 'radio', 1),
+(29, 'Šta kao rezultat daje sledeći kod (u C++): <code>(true && !false) && !(!true)</code>?', 'radio', 1),
+(30, 'Šta znači DNS? ', 'input', 1),
+(31, 'Šta znači SMTP?', 'input', 1),
+(32, 'Šta znači HTTP?', 'input', 1),
+(33, 'Koji protokol je sigurniji?', 'radio', 1),
+(34, 'Šta znači GPU?', 'radio', 1),
+(35, 'Softver predstavlja programske celine koje se sastoje iz dva dela i to:', 'chbox', 1),
+(36, 'U decimalnom brojnom sistemu, binarno 1010 je?', 'radio', 1),
+(37, 'Koje klase postoje u klasnom sistemu subnet maski?', 'radio', 1),
+(38, 'Šta je VPN?', 'input', 1),
+(39, 'Koji od ponudjenih pojmova su dva osnovna tipa kriptografije?', 'chbox', 1),
+(40, 'Šta je PKI?', 'input', 1),
+(41, 'Na šta se odnosi pojam XSS?', 'radio', 1),
+(42, 'Koji jezik se, najčešće, koristi prilikom XSS?', 'radio', 1),
+(43, 'Šta je od navedenog svrstano u \'malware\'?', 'chbox', 1),
+(44, 'Za šta je, od navedenog, zaduženo sertifikaciono telo?', 'chbox', 1),
+(45, 'Šta, u web programiranju, predstavlja izraz DOM?', 'input', 1),
+(46, 'Koji od navedenih komandi je za ispis teksta \'hello\' u javascript-u?', 'radio', 1),
+(47, 'Ako nizovi počinju od 1, mi radimo u kom od navedenih jezika?', 'radio', 1),
+(48, 'Koji od sledećih jezika ima tačno navedene ekstenzije datoteka?', 'chbox', 1),
+(49, 'Programi za obradu slika koji rade na principu piksela zovu se?', 'radio', 1),
+(50, 'U programskom jeziku Python komentare označavamo sa?', 'radio', 1),
+(51, 'Kako se u CSS-u pristupa nekom elementu sa id-em <code>idPrimer</code>?', 'radio', 1),
+(52, 'Kako se u CSS-u pristupa nekom elementu sa klasom <code>klasa_primer</code>?', 'radio', 1),
+(53, 'Ako koristimo operacije PUSH i POP mi imamo veze sa kojim tipom podataka?', 'radio', 1),
+(54, 'Koji protokol se koristi prilikom \'torrent-ovanja\'?', 'radio', 1),
+(55, 'Koliko je x na kraju ovog koda u javascript-u?\r\n     <code>\r\n     let x = 5;\r\n     if(x % 2 == 0) {\r\n     x += 10;\r\n     } else {\r\n     x *= 2;\r\n     }\r\n     </code>', 'input', 1),
+(56, 'Šta je od sledećih tačno?', 'chbox', 1),
+(57, 'Kojom jedinicom se izražava radni takt procesora?', 'radio', 1),
+(58, 'Šta znači skraćenica BIOS?', 'input', 1),
+(59, 'Memorija koja gubi podatke pri isključenju računara je?', 'radio', 1),
+(60, 'Čemu služe programski prevodioci?', 'radio', 1),
+(61, 'Šta je multimedija?', 'radio', 1),
+(62, 'Šta sadrži \'.mp3\' datoteka?', 'radio', 1),
+(63, 'Šta znači SQL?', 'radio', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions_existing_requests`
+--
+
+CREATE TABLE `questions_existing_requests` (
+  `id` int(11) NOT NULL,
+  `text` varchar(255) DEFAULT NULL,
+  `type` varchar(5) DEFAULT NULL,
+  `quiz_type_id` int(11) DEFAULT NULL,
+  `added_status` bit(1) DEFAULT b'0',
+  `deleted` bit(1) NOT NULL DEFAULT b'0',
+  `date_added` date DEFAULT NULL,
+  `date_approved` date DEFAULT NULL,
+  `users_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions_not_existing_requests`
+--
+
+CREATE TABLE `questions_not_existing_requests` (
+  `id` int(11) NOT NULL,
+  `text` varchar(255) DEFAULT NULL,
+  `type` varchar(5) DEFAULT NULL,
+  `quiz_type_requests_id` int(11) DEFAULT NULL,
+  `added_status` bit(1) DEFAULT b'1',
+  `deleted` bit(1) NOT NULL DEFAULT b'0',
+  `date_added` date DEFAULT NULL,
+  `date_approved` date DEFAULT NULL,
+  `users_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -426,10 +487,9 @@ CREATE TABLE `quiz_type_requests` (
 --
 
 INSERT INTO `quiz_type_requests` (`id`, `name`, `description`, `users_id`, `date_created`, `date_accessed`, `active`, `is_admin_id`) VALUES
-(1, NULL, NULL, 1, '2023-01-14 17:33:55', NULL, b'1', NULL),
-(2, NULL, NULL, 1, '2023-01-14 17:42:58', NULL, b'1', NULL),
 (3, 'hellothere', '1234', 1, '2023-01-14 18:34:07', NULL, b'1', NULL),
-(4, 'xd', 'sdadas', 1, '2023-01-14 18:35:55', NULL, b'1', NULL);
+(4, 'xd', 'sdadas', 1, '2023-01-14 18:35:55', NULL, b'1', NULL),
+(5, 'test 1', 'bla bla', 1, '2023-01-17 21:38:42', NULL, b'1', NULL);
 
 -- --------------------------------------------------------
 
@@ -455,7 +515,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-14', 'Nema opisa... :('),
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-17', 'Nema opisa... :('),
 (2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-12', NULL),
 (3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
 (4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
@@ -501,6 +561,20 @@ ALTER TABLE `answers`
   ADD KEY `FK_answers_questions` (`questions_id`) USING BTREE;
 
 --
+-- Indexes for table `answers_existing_requests`
+--
+ALTER TABLE `answers_existing_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_answers_existing_requests_questions_existing` (`questions_existing_requests_id`);
+
+--
+-- Indexes for table `answers_not_existing_requests`
+--
+ALTER TABLE `answers_not_existing_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_answers_not_existing_requests_questions_not_existing_requests` (`questions_not_existing_requests_id`);
+
+--
 -- Indexes for table `is_admin`
 --
 ALTER TABLE `is_admin`
@@ -513,6 +587,22 @@ ALTER TABLE `is_admin`
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_questions_quiz_type` (`quiz_type_id`);
+
+--
+-- Indexes for table `questions_existing_requests`
+--
+ALTER TABLE `questions_existing_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_questions_existing_requests_quiz_type` (`quiz_type_id`),
+  ADD KEY `FK_questions_existing_requests_users` (`users_id`);
+
+--
+-- Indexes for table `questions_not_existing_requests`
+--
+ALTER TABLE `questions_not_existing_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_questions_not_existing_requests_quiz_type_requests` (`quiz_type_requests_id`),
+  ADD KEY `FK_questions_not_existing_requests_users` (`users_id`);
 
 --
 -- Indexes for table `quiz_playing`
@@ -569,6 +659,18 @@ ALTER TABLE `answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
+-- AUTO_INCREMENT for table `answers_existing_requests`
+--
+ALTER TABLE `answers_existing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `answers_not_existing_requests`
+--
+ALTER TABLE `answers_not_existing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `is_admin`
 --
 ALTER TABLE `is_admin`
@@ -579,6 +681,18 @@ ALTER TABLE `is_admin`
 --
 ALTER TABLE `questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `questions_existing_requests`
+--
+ALTER TABLE `questions_existing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `questions_not_existing_requests`
+--
+ALTER TABLE `questions_not_existing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `quiz_playing`
@@ -596,7 +710,7 @@ ALTER TABLE `quiz_type`
 -- AUTO_INCREMENT for table `quiz_type_requests`
 --
 ALTER TABLE `quiz_type_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -621,6 +735,18 @@ ALTER TABLE `answers`
   ADD CONSTRAINT `FK_odgovori_pitanja` FOREIGN KEY (`questions_id`) REFERENCES `questions` (`id`);
 
 --
+-- Constraints for table `answers_existing_requests`
+--
+ALTER TABLE `answers_existing_requests`
+  ADD CONSTRAINT `FK_answers_existing_requests_questions_existing` FOREIGN KEY (`questions_existing_requests_id`) REFERENCES `questions_existing_requests` (`id`);
+
+--
+-- Constraints for table `answers_not_existing_requests`
+--
+ALTER TABLE `answers_not_existing_requests`
+  ADD CONSTRAINT `FK_answers_not_existing_requests_questions_not_existing_requests` FOREIGN KEY (`questions_not_existing_requests_id`) REFERENCES `questions_not_existing_requests` (`id`);
+
+--
 -- Constraints for table `is_admin`
 --
 ALTER TABLE `is_admin`
@@ -631,6 +757,20 @@ ALTER TABLE `is_admin`
 --
 ALTER TABLE `questions`
   ADD CONSTRAINT `FK_questions_quiz_type` FOREIGN KEY (`quiz_type_id`) REFERENCES `quiz_type` (`id`);
+
+--
+-- Constraints for table `questions_existing_requests`
+--
+ALTER TABLE `questions_existing_requests`
+  ADD CONSTRAINT `FK_questions_existing_requests_quiz_type` FOREIGN KEY (`quiz_type_id`) REFERENCES `quiz_type` (`id`),
+  ADD CONSTRAINT `FK_questions_existing_requests_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `questions_not_existing_requests`
+--
+ALTER TABLE `questions_not_existing_requests`
+  ADD CONSTRAINT `FK_questions_not_existing_requests_quiz_type_requests` FOREIGN KEY (`quiz_type_requests_id`) REFERENCES `quiz_type_requests` (`id`),
+  ADD CONSTRAINT `FK_questions_not_existing_requests_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `quiz_playing`
