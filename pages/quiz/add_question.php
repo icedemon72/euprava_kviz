@@ -5,14 +5,46 @@
   require_once('./../../auth/connect_db.php');
   require_once('./add_question_functions.php');
 
-  $errorMessage = '';
-  $success = false;
+  $errorMessageEx = '';
+  $successEx = false;
   $requestCategoriesArray = generateCategory($conn);
   $existingCategoriesArray = generateCategory($conn, 'existing');
 
-  if(isset($_GET['ex_category_name'])) {
-    print_r($_GET['correct_answer']);
-  }
+  $correctAnswersArray = array();
+  $wrongAnswersArray = array();
+
+  if(isset($_POST['submitQuestionExisting'])) {
+    if(!isset($_SESSION['username'])) {
+      header('Location: ./../../login.php');
+      exit();
+    }
+
+    foreach($_POST as $key => $value) {
+      if(gettype($value) != 'array') {
+        $inputValues[$key] = trim(stripslashes($value));
+      }
+    }
+
+    $errors = checkInputFields($existingCategoriesArray, $inputValues);
+
+    if(sizeof($errors) == 0) {
+      $errors = checkQuestionFields($_POST['category_name'], $_POST['correct_answer'], $_POST['wrong_answer'])['errors'];
+    }
+
+    foreach($errors as $err) {
+      $errorMessageEx .= '<li>' . $err . '</li>';
+    }
+
+
+    if($_POST['category_name'] == 'chbox' || $_POST['category_name'] == 'radio') {
+      
+    } else if($_POST['category_name'] == 'input') {
+      array_push($correctAnswersArray, $_POST['correct_answer']);
+    }
+    
+    
+    print_r($correctAnswersArray);
+  } 
 
 ?>
 
@@ -36,7 +68,7 @@
     generateNavbar('kviz', $PATH);
   ?>
 
-  <form method="get">
+  <form method="POST">
     <div class="container mt-5">
       <div class="row gutters profile_row shadow rounded overflow-hidden">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -48,7 +80,7 @@
               <div class="row gutters d-flex justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center">Naziv kategorije</h6>
-                  <select type="text" name="ex_category_name" class="form-select">
+                  <select type="text" name="category_name" class="form-select">
                     <option value="defualt">Izaberi kategoriju</option>
                     <?php for($i = 0; $i < sizeof($existingCategoriesArray); $i++){ ?>
                       <option value="<?=$existingCategoriesArray[$i]?>"><?=$existingCategoriesArray[$i]?></option>
@@ -59,13 +91,13 @@
               <div class="row gutters d-flex justify-content-center mt-4">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center">Pitanje:</h6>
-                  <textarea class="form-control" name="category_desc" placeholder="Unesite pitanje..."></textarea>
+                  <textarea class="form-control" name="question" placeholder="Unesite pitanje..."></textarea>
                 </div>
               </div>
               <div class="row gutters d-flex justify-content-center mt-4">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center">Tip pitanja</h6>
-                  <select type="text" name="ex_category_name" class="form-select" onchange="generateInputFields(this, 'answersExId')">
+                  <select type="text" name="category_type" class="form-select" onchange="generateInputFields(this, 'answersExId')">
                     <option value="0">Izaberi tip</option>
                     <option value="radio">Radio (Jedan odgovor je tačan)</option>
                     <option value="chbox">Checkbox (Mogu više njih biti tačno)</option>
@@ -81,14 +113,14 @@
               <div class="d-flex justify-content-center mt-4">
                 <input type="submit" class="btn btn-primary reg_btn" value="Pošalji pitanje!" name="submitQuestionExisting" />
               </div>
-              <?php if ($errorMessage != '') : ?>
+              <?php if ($errorMessageEx != '') : ?>
                 <div class="row d-flex justify-content-center my-3">
                   <div class="d-flex col-lg-4 justify-content-center mx-4 alert alert-danger" role="alert">
-                    <ul class="errors"><?= @$errorMessage; ?></ul>
+                    <ul class="errors"><?= @$errorMessageEx ?></ul>
                   </div>
                 </div>
               <?php endif;
-              if ($success) : ?>
+              if ($successEx) : ?>
                 <div class="row d-flex justify-content-center my-3">
                   <div class="d-flex col-lg-4 justify-content-center mx-4 alert alert-success" role="alert">
                     <p class="success"><?= 'Uspešno ažuriranje, redirektujem na profil...' ?></p>
@@ -114,7 +146,7 @@
               <div class="row gutters d-flex justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center text-primary text-center">Naziv kategorije</h6>
-                  <select type="text" name="ex_category_name" class="form-select ">
+                  <select type="text" name="req_category_type" class="form-select ">
                     <option name="defualt">Izaberi kategoriju</option>
                     <?php for($i = 0; $i < sizeof($requestCategoriesArray); $i++){ ?>
                       <option name="<?=$i?>"><?=$requestCategoriesArray[$i]?></option>
@@ -126,14 +158,14 @@
               <div class="row gutters d-flex justify-content-center mt-4">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center">Pitanje:</h6>
-                  <textarea class="form-control" name="category_desc" placeholder="Unesite pitanje..."></textarea>
+                  <textarea class="form-control" name="req_question" placeholder="Unesite pitanje..."></textarea>
                 </div>
               </div>
 
               <div class="row gutters d-flex justify-content-center mt-4">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
                   <h6 class="mb-3 text-center">Tip pitanja</h6>
-                  <select type="text" name="ex_category_name" class="form-select" onchange="generateInputFields(this, 'answersReqId')">
+                  <select type="text" name="req_category_type" class="form-select" onchange="generateInputFields(this, 'answersReqId')">
                     <option value="0">Izaberi tip</option>
                     <option value="radio">Radio (Jedan odgovor je tačan)</option>
                     <option value="chbox">Checkbox (Mogu više njih biti tačno)</option>

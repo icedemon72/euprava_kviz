@@ -40,15 +40,15 @@
     // username check
     if(!strlen($input['uname'])) {
       array_push($errors, 'Pogrešan unos u polje "Korisničko ime"!');
-    } else if (!checkIfUsernameExists($input['uname'], $conn)) {
-      array_push($errors, 'Korisničko ime "' . $input['uname'] . '" ne postoji!');
     } 
-    // password check
+    //password check
     else if(!strlen($input['pass'])) {
       array_push($errors, 'Pogrešan unos u polje "Lozinka"!');
-    } else if(!checkIfPasswordIsCorrect($input['uname'], $input['pass'], $conn)) {
-      array_push($errors, 'Pogrešna lozinka!');
-    } else {      
+    }
+    else if (!(checkIfUsernameExists($input['uname'], $conn)) || !(checkIfPasswordIsCorrect($input['uname'], $input['pass'], $conn))) {
+      array_push($errors, 'Pogrešno korisničko ime ili lozinka!');
+    } 
+     else {      
       // Last log in update
       $date = date_format(date_create(), 'Y-m-d');
       $stmt = $conn->prepare(
