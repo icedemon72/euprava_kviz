@@ -29,7 +29,10 @@
 
     $stmt->bind_param('ss', $username, $password);
     $stmt->execute();
-    $count = $stmt->store_result();
+    $stmt->store_result();
+    
+    $count = $stmt->num_rows();
+    
     $stmt->free_result();
     $stmt->close();
 

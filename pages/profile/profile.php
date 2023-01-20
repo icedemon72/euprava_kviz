@@ -1,39 +1,43 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-  header('Location: ./../../login.php');
-  exit();
-}
+  session_start();
+  require_once('./../../components/navbar.php');
+  require_once('./../../auth/settings.php');
+  require_once('./../../auth/connect_db.php');
+  require_once('./my_profile_functions.php');
 
-require_once('./../../components/navbar.php');
-require_once('./../../auth/settings.php');
-require_once('./../../auth/connect_db.php');
-require_once('./my_profile_functions.php');
+  if($_GET['user'] == $_SESSION['username']) {
+    header('Location: ./my_profile.php');
+  }
 
-$userInfo = getInfoFromUser($_SESSION['username'], $conn);
-$quiz = getQuizDetails($_SESSION['username'], $conn);
-$achievements = getAchievements($_SESSION['username'], $conn);
-$questionCount = getAddedQuestions($_SESSION['username'], $conn);
+  $userId = getIdByUser($_GET['user'], $conn);
+
+  if(!$userId || !isset($_GET['user'])) {
+    header("HTTP/1.0 404 Not Found");
+    die();
+  }
+
+  $userInfo = getInfoFromUser($_GET['user'], $conn);
+  $quiz = getQuizDetails($_GET['user'], $conn);
+  $achievements = getAchievements($_GET['user'], $conn);
+  $questionCount = getAddedQuestions($_GET['user'], $conn);
+
+  
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="<?= $PATH . '/images/favicon.png' ?>" type="image/x-icon">
   <link rel="stylesheet" href="<?= $PATH . '/style/bootstrap.min.css' ?>">
   <link rel="stylesheet" href="<?= $PATH . '/style/style.css' ?>">
-  <title>Kvizzi | Moj profil</title>
-
+  <title>Kvizzi | <?=$_GET['user']?></title>
 </head>
-
-<body class="profile_body">
-  <!-- Navbar -->
+<body>
   <?php
-  generateNavbar('', $PATH);
+    generateNavbar('', $PATH);
   ?>
   <div class="row profile_row py-5 px-4">
     <div class="col-md-10 col-lg-8 col-xl-6 mx-auto"> <!-- Profile widget -->
@@ -45,7 +49,6 @@ $questionCount = getAddedQuestions($_SESSION['username'], $conn);
             </div>
             <div class="media-body mb-5">
               <h4 class="mt-0 mb-0 pb-3 profile_name"><?= $userInfo['first_name'] ?> <?= $userInfo['last_name'] ?></h4>
-              <a href="<?= $PATH . '/pages/profile/settings.php' ?>" class="btn btn-sm btn-block edit_profile_btn">Uredi profil</a>
             </div>
           </div>
         </div>
@@ -130,6 +133,7 @@ $questionCount = getAddedQuestions($_SESSION['username'], $conn);
     </div>
   </div>
   <script src="<?= $PATH . '/scripts/bootstrap.bundle.min.js' ?>"></script>
-</body>
+  
 
+</body>
 </html>

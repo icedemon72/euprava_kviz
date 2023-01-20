@@ -6,6 +6,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 require_once('./../../components/navbar.php');
+require_once('./../../components/footer.php');
 require_once('./../../auth/settings.php');
 require_once('./../../auth/connect_db.php');
 require_once('./my_profile_functions.php');
@@ -58,11 +59,9 @@ if (isset($_POST['update'])) {
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
-  <?php
-  generateNavbar('', $PATH);
-  ?>
+  <?php generateNavbar('', $PATH) ?>
   <form method="post">
     <div class="container mt-5">
       <div class="row gutters profile_row shadow rounded overflow-hidden">
@@ -166,6 +165,9 @@ if (isset($_POST['update'])) {
       window.history.replaceState(null, null, window.location.href);
     </script>
   <?php endif; ?>
+
+  <?php generateFooter($PATH) ?>
+
   <script src="<?= $PATH . '/scripts/bootstrap.bundle.min.js' ?>"></script>
 </body>
 

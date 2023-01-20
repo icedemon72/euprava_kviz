@@ -1,6 +1,7 @@
 <?php
   session_start();
   require_once('./../../components/navbar.php');
+  require_once('./../../components/footer.php');
   require_once('./../../auth/settings.php');
   require_once('./../../auth/connect_db.php');
   require_once('./add_question_functions.php');
@@ -34,8 +35,9 @@
     }
 
     if(sizeof($errorsInputs) == 0) {
-      $errorsQuestions = checkQuestionFields($_POST['category_type'], $_POST['correct_answer'], @$_POST['wrong_answer'])['errors'];
-      
+      $data = checkQuestionFields($_POST['category_type'], $_POST['correct_answer'], @$_POST['wrong_answer']);
+      $errorsQuestions = $data['errors'];
+
       if(sizeof($errorsQuestions) == 0) {
         insertQuestion('existing', $inputValues['category_type'], $inputValues['category_name'], $inputValues['question'], $data['correctAnswers'], $data['wrongAnswers'], $conn, $db);
         $successEx = true;
@@ -101,7 +103,7 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
   <?php
     generateNavbar('kviz', $PATH);
@@ -184,7 +186,7 @@
               </div>
               <div class="row gutters d-flex justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-12 ">
-                  <h6 class="mb-3 text-center text-primary text-center">Naziv kategorije</h6>
+                  <h6 class="mb-3 text-center text-center">Naziv kategorije</h6>
                   <select type="text" name="category_name" class="form-select ">
                     <option name="defualt">Izaberi kategoriju</option>
                     <?php for($i = 0; $i < sizeof($requestCategoriesArray); $i++){ ?>
@@ -218,7 +220,7 @@
               </div>
 
               <div class="d-flex justify-content-center mt-4">
-                <input type="submit" class="btn btn-primary reg_btn" value="Pošalji kategoriju!" name="submitQuestionRequest" />
+                <input type="submit" class="btn btn-primary reg_btn" value="Pošalji pitanje!" name="submitQuestionRequest" />
               </div>
               <?php if ($errorMessageReq != '') : ?>
                 <div class="row d-flex justify-content-center my-3">
@@ -241,6 +243,27 @@
     </div>
   </form>
 
+  <div class="container mt-5 mb-5">
+      <div class="row gutters profile_row shadow rounded overflow-hidden">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="text-center mb-5">
+                <h2 class="display-20 display-md-18 display-lg-16 mt-5">Često postavljena pitanja (FAQ)</h2>
+              </div>
+
+              <div class="row gutters d-flex justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-9 col-xl-8">
+                  Hello
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <?php if ($successEx || $successReq) : ?>
     <script>
       window.setTimeout(x => {
@@ -249,6 +272,8 @@
       window.history.replaceState(null, null, window.location.href);
     </script>
   <?php endif; ?> 
+
+  <?php generateFooter($PATH) ?>
 
   <script src="<?=$PATH.'/scripts/script.js'?>"></script>
   <script src="<?=$PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>

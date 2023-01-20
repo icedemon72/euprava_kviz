@@ -1,6 +1,7 @@
 <?php
   session_start();
   require_once('./../../components/navbar.php');
+  require_once('./../../components/footer.php');
   require_once('./../../auth/settings.php');
   require_once('./../../auth/connect_db.php');
   require_once('./add_category_functions.php');
@@ -14,7 +15,7 @@
       exit();
     } 
     foreach($_POST as $key => $value) {
-      $inputValues[$key] = trim(stripslashes($value));
+      $inputValues[$key] = ucfirst(trim(stripslashes($value)));
     }
 
     $errors = checkIfValidCategory($inputValues, $conn);
@@ -46,11 +47,9 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
-  <?php
-  generateNavbar('kviz', $PATH);
-  ?>
+  <?php generateNavbar('kviz', $PATH) ?>
   <div class="text-center mb-5">
     <h2 class="display-20 display-md-18 display-lg-16 mt-5">Dodaj kategoriju</h2>
   </div>
@@ -105,7 +104,7 @@
       window.history.replaceState(null, null, window.location.href);
     </script>
   <?php endif; ?>
-
+  <?php generateFooter($PATH) ?>
 
   <script src="<?= $PATH . '/scripts/bootstrap.bundle.min.js' ?>"></script>
 </body>

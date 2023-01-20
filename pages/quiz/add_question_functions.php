@@ -12,7 +12,7 @@
         "SELECT quiz_type.name
         FROM quiz_type
         WHERE quiz_type.active = 1
-        ORDER BY quiz_type_requests.name ASC;;"
+        ORDER BY quiz_type.name ASC;"
       );
     }
 
@@ -235,7 +235,7 @@
       $notCorrectBit = 0;
       $stmt = $conn->prepare(
         "INSERT INTO questions_existing_requests (
-          text, type, quiz_type_requests_id, 
+          text, type, quiz_type_id, 
           date_added, users_id
         )
         VALUES (?, ?, ?, ?, ?);"
@@ -274,5 +274,10 @@
         $stmt->close();
       }
     }
+
+    require_once('./../profile/achievements.php');    
+    awardAchievement("Kap koja je prelila čašu", $conn, $userId);
   }
+
+  
 ?>

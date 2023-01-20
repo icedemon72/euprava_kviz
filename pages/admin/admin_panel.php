@@ -6,6 +6,7 @@
   }
   require_once('./../../auth/connect_db.php');
   require_once('./../../components/navbar.php');
+  require_once('./../../components/footer.php');
   require_once('./../../auth/settings.php');
   require_once('./admin_panel_functions.php');
 
@@ -48,6 +49,7 @@
   <link rel="shortcut icon" href="<?=$PATH.'/images/favicon.png'?>" type="image/x-icon">
   <link rel="stylesheet" href="<?=$PATH.'/style/bootstrap.min.css'?>">
   <link rel="stylesheet" href="<?=$PATH.'/style/style.css'?>">
+  <link rel="stylesheet" href="<?=$PATH.'/style/style_admin.css'?>">
   <title>Kvizzi | Admin panel</title>
 
 </head>
@@ -95,7 +97,7 @@
                 <td class="d-none d-md-table-cell" title=<?= $userInfo['name'][$i] ?>> <?= shortenString(($userInfo['name'][$i])) ?></td>
                 <td title=<?= $userInfo['email'][$i] ?>><?= shortenString($userInfo['email'][$i], 24) ?></td>
                 <td class="d-none d-md-table-cell"><?= $userInfo['registration_date'][$i] ?></td>
-                <td>x</td>
+                <td><a class="admin_link" href="<?=$PATH.'/pages/profile/profile.php?user='.$userInfo['username'][$i] ?>">[&#8594;]</a></td>
               </tr>
             <?php }?>
           </tbody>
@@ -123,7 +125,10 @@
         </div>
       </div>
     </div>
-    
+  </div>
+
+  <div class="container-fluid footer_container">
+
   </div>
   
   <script src="<?=$PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>

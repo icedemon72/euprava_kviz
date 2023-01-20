@@ -32,7 +32,7 @@ $categories = getCategories($conn);
 
       <div class="row">
         <?php for($i = 0; $i < sizeof($categories['id']); $i++) { ?>
-          <div class="col-sm-12 col-md-6 col-lg-4 mb-1-9 mb-lg-0 card_category">
+          <div class="col-sm-12 col-md-6 col-lg-4 mb-1-9 mb-lg-0 card_category" onclick="window.location.href='<?=$PATH.'/pages/quiz.php?type='.$categories['name'][$i]?>'">
             <div class="team-style1 hoverstyle1">
               <div class="team-img">
                 <img class="w-100" src="<?= $PATH.'/images'.'/'.$categories['image'][$i] ?>" alt="Slika kategorije">

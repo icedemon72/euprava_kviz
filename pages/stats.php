@@ -1,6 +1,7 @@
 <?php
   session_start();
   require_once('./../components/navbar.php');
+  require_once('./../components/footer.php');
   require_once('./../auth/settings.php');
 ?>
 
@@ -18,13 +19,11 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
-  <?php
-    generateNavbar('kviz', $PATH);
-    
-  ?>
+  <?php generateNavbar('kviz', $PATH) ?>
 
+  <?php generateFooter($PATH) ?>
   <script src="<?=$PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
 </body>
 

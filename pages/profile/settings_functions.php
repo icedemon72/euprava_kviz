@@ -129,6 +129,10 @@
     $stmt->execute();
     $stmt->free_result();
     $stmt->close();
+    if($inputValues['description'] != '') {
+      require_once('./achievements.php');
+      awardAchievement("Konačno sam našao deo koji mi nedostaje", $conn);
+    }
   }
 
   function updateUserPassword($new_password, $conn) {

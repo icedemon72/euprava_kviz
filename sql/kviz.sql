@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2023 at 09:43 PM
+-- Generation Time: Jan 20, 2023 at 09:13 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -50,7 +50,8 @@ INSERT INTO `achievements` (`id`, `title`, `description`, `image`, `users_unlock
 (8, 'It\'s OK let him play', 'Odigraj jednom', 'itsokay.png', 0),
 (9, 'Nemoj ga rush-ati, samo mu ga daj malo po gasu', 'Završi kviz sa barem 7 tačnih odgovora za manje od jednog minuta', 'gas.jpg', 0),
 (10, 'I meni je mene žao, zaplak\'o sam zamalo', 'Završi kviz bez tačnog odgovora', 'cry.jpg', 0),
-(11, 'Vukov \"Riječnik\" I izdanje', 'Osvoji sva dostignućna', 'vuk.jpg', 0);
+(11, 'Kap koja je prelila čašu', 'Dodaj jedno pitanje', 'plus.png', 0),
+(20, 'Vukov \"Riječnik\" I izdanje', 'Osvoji sva dostignućna', 'vuk.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -277,6 +278,29 @@ CREATE TABLE `answers_existing_requests` (
   `questions_existing_requests_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `answers_existing_requests`
+--
+
+INSERT INTO `answers_existing_requests` (`id`, `text`, `correct`, `questions_existing_requests_id`) VALUES
+(1, 'x', b'1', 1),
+(2, 'd', b'0', 1),
+(3, 'f', b'0', 1),
+(4, 'g', b'0', 1),
+(5, 'x', b'1', 2),
+(6, 'd', b'0', 2),
+(7, 'f', b'0', 2),
+(8, 'g', b'0', 2),
+(9, 'asdasd', b'1', 3),
+(10, 'asdasd', b'0', 3),
+(11, 'asdasd', b'0', 3),
+(12, 'asdasda', b'0', 3),
+(13, 'asdasd', b'1', 4),
+(14, 'dasdasd', b'0', 4),
+(15, 'sdasda', b'0', 4),
+(16, 'sdaasdasd', b'0', 4),
+(17, 'asdasdasdasdas', b'1', 5);
+
 -- --------------------------------------------------------
 
 --
@@ -289,6 +313,16 @@ CREATE TABLE `answers_not_existing_requests` (
   `correct` bit(1) DEFAULT NULL,
   `questions_not_existing_requests_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `answers_not_existing_requests`
+--
+
+INSERT INTO `answers_not_existing_requests` (`id`, `text`, `correct`, `questions_not_existing_requests_id`) VALUES
+(1, '4', b'1', 1),
+(2, '5', b'0', 1),
+(3, '6', b'0', 1),
+(4, '7', b'0', 1);
 
 -- --------------------------------------------------------
 
@@ -410,6 +444,17 @@ CREATE TABLE `questions_existing_requests` (
   `users_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `questions_existing_requests`
+--
+
+INSERT INTO `questions_existing_requests` (`id`, `text`, `type`, `quiz_type_id`, `added_status`, `deleted`, `date_added`, `date_approved`, `users_id`) VALUES
+(1, 'Hello', 'radio', 1, b'0', b'0', '2023-01-18', NULL, 1),
+(2, 'Hello', 'radio', 1, b'0', b'0', '2023-01-18', NULL, 1),
+(3, 'Asdasdas', 'radio', 1, b'0', b'0', '2023-01-18', NULL, 1),
+(4, 'Asdasdasd', 'radio', 1, b'0', b'0', '2023-01-18', NULL, 1),
+(5, 'Asdasdasdas', 'input', 1, b'0', b'0', '2023-01-18', NULL, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -427,6 +472,13 @@ CREATE TABLE `questions_not_existing_requests` (
   `date_approved` date DEFAULT NULL,
   `users_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `questions_not_existing_requests`
+--
+
+INSERT INTO `questions_not_existing_requests` (`id`, `text`, `type`, `quiz_type_requests_id`, `added_status`, `deleted`, `date_added`, `date_approved`, `users_id`) VALUES
+(1, 'Koliko je 2+2?', 'radio', 6, b'1', b'0', '2023-01-18', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -489,7 +541,9 @@ CREATE TABLE `quiz_type_requests` (
 INSERT INTO `quiz_type_requests` (`id`, `name`, `description`, `users_id`, `date_created`, `date_accessed`, `active`, `is_admin_id`) VALUES
 (3, 'hellothere', '1234', 1, '2023-01-14 18:34:07', NULL, b'1', NULL),
 (4, 'xd', 'sdadas', 1, '2023-01-14 18:35:55', NULL, b'1', NULL),
-(5, 'test 1', 'bla bla', 1, '2023-01-17 21:38:42', NULL, b'1', NULL);
+(5, 'test 1', 'bla bla', 1, '2023-01-17 21:38:42', NULL, b'1', NULL),
+(6, 'Matematika', 'Kviz o matematici, formule, zadaci itd.', 1, '2023-01-18 00:01:36', NULL, b'1', NULL),
+(7, 'Fizika', '-', 2, '2023-01-18 00:45:15', NULL, b'1', NULL);
 
 -- --------------------------------------------------------
 
@@ -515,8 +569,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-17', 'Nema opisa... :('),
-(2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-12', NULL),
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-20', ''),
+(2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-18', NULL),
 (3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
 (4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
 (5, '1234@gmail.com', '123', 'e10adc3949ba59abbe56e057f20f883e', 'XYZ', 'YXZ', '2010-10-05', '2023-01-12', '2023-01-12', 'IMAM OPIS!!!');
@@ -541,7 +595,10 @@ CREATE TABLE `user_has_achievement` (
 
 INSERT INTO `user_has_achievement` (`id`, `users_id`, `achievements_id`, `status`, `date_unlocked`) VALUES
 (1, 1, 1, b'1', '2023-01-12 13:48:00'),
-(2, 1, 10, b'1', '2023-01-13 02:10:00');
+(2, 1, 10, b'1', '2023-01-13 02:10:00'),
+(5, 1, 11, b'1', '2023-01-18 00:43:10'),
+(6, 2, 11, b'1', '2023-01-18 00:44:27'),
+(7, 1, 7, b'1', '2023-01-18 00:50:31');
 
 --
 -- Indexes for dumped tables
@@ -650,7 +707,7 @@ ALTER TABLE `user_has_achievement`
 -- AUTO_INCREMENT for table `achievements`
 --
 ALTER TABLE `achievements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `answers`
@@ -662,13 +719,13 @@ ALTER TABLE `answers`
 -- AUTO_INCREMENT for table `answers_existing_requests`
 --
 ALTER TABLE `answers_existing_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `answers_not_existing_requests`
 --
 ALTER TABLE `answers_not_existing_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `is_admin`
@@ -686,13 +743,13 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `questions_existing_requests`
 --
 ALTER TABLE `questions_existing_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `questions_not_existing_requests`
 --
 ALTER TABLE `questions_not_existing_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `quiz_playing`
@@ -710,7 +767,7 @@ ALTER TABLE `quiz_type`
 -- AUTO_INCREMENT for table `quiz_type_requests`
 --
 ALTER TABLE `quiz_type_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -722,7 +779,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_has_achievement`
 --
 ALTER TABLE `user_has_achievement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

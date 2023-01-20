@@ -48,8 +48,28 @@ input.dropdown-item {
   text-align: center;
 }
 
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Footer */
+
+.footer_container {
+  background-color: #00465F;
+  color: #FFF;
+}
+
+/* About us */
+
+.i_frame_map {
+  width: 100%;
+  min-height: 300px;
+  height: 60vh;
+  max-height: 60vh;
+}
 
 /* Registration.php */
+
 .reg_body {
   background-color: #00465F;
 }
@@ -104,6 +124,34 @@ input.dropdown-item {
   color: #FFCD00 !important;
 }
 
+/* Quiz */
+
+#quizForm input[type=checkbox], #quizForm input[type=radio] {
+  accent-color: #00465F;
+}
+
+#quizForm .form-control:focus {
+  border-color: #00465F;
+  box-shadow: 0 0 5px #00465f7e;
+}
+
+.question_text {
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  font-family: 'Source Code Pro';
+}
+
+.quiz_row input:hover:not(.form-control), .answers_text:hover {
+  cursor: pointer;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid #00465F;
+}
+
 /* Profile */
 
 .profile_body {
@@ -127,8 +175,6 @@ input.dropdown-item {
   background-size: cover;
   background-repeat: no-repeat
 }
-
-
 
 .edit_profile_btn {
   color: #00465F;
@@ -267,6 +313,32 @@ input.dropdown-item {
   color: #FFCD00;
   transition: 0.2s ease-in;
 }
+
+/* questions */
+.wrong_answer {
+  background-color: #9b291560;
+  border-color: #9B2915;
+}
+
+.wrong_answer:focus {
+  background-color: #9b29150e;
+  border-color: #9B2915;
+  box-shadow: 0 0 5px #9b2915bd;
+}
+
+.correct_answer {
+  background-color: #69b57849;
+  border-color: #69B578;
+}
+
+.correct_answer:focus {
+  background-color: #9b29150e;
+  border-color: #69B578;
+  box-shadow: 0 0 5px #69b578b7;
+}
+
+
+
 
 /* media queries */
 @media only screen and (max-width: 991px) {

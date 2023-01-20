@@ -22,6 +22,44 @@
     return $id;
   }
 
+  function getAddedQuestions($user, $conn) {
+    $userId = getIdByUser($user, $conn);
+    $count = 0;
+
+    $stmt = $conn->prepare(
+      "SELECT id
+      FROM questions_existing_requests
+      WHERE questions_existing_requests.users_id = ?;"
+    );
+
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $stmt->store_result();
+
+    $count += $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+
+    $stmt = $conn->prepare(
+      "SELECT id
+      FROM questions_not_existing_requests
+      WHERE questions_not_existing_requests.users_id = ?"
+    );
+
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $stmt->store_result();
+
+    $count += $stmt->num_rows();
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return $count;
+  }
+
   function getInfoFromUser($user, $conn) {
     $stmt = $conn->prepare(
       "SELECT *

@@ -16,7 +16,7 @@
     }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar_main">
+<nav class="navbar navbar-expand-lg sticky-top navbar_main">
   <div class="container-fluid">
     <a class="navbar-brand " href="<?=$PATH?>">
       <img src="<?=$PATH.'/images/favicon.png' ?>" alt="Slika navbar" width="30" height="30" class="d-inline-block align-text-top">
