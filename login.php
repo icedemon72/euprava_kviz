@@ -100,7 +100,7 @@
   <?php if($success): ?>
     <script>
       window.setTimeout(x => { 
-        window.location = "<?=$PATH.'/index.php'?>";
+        window.location = "<?= $PATH.'/index.php' ?>";
       }, 1000);
       window.history.replaceState(null, null, window.location.href);
     </script>

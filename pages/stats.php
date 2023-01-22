@@ -23,6 +23,31 @@
   <!-- Navbar -->
   <?php generateNavbar('kviz', $PATH) ?>
 
+  <div class="container-fluid mt-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <table class="table table-striped table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Korisničko ime</th>
+              <th scope="col">Ime i prezime</th>
+              <th scope="col">Prosečan rezultat</th>
+              <th scope="col">Profil</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hello</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+    
+  
+
   <?php generateFooter($PATH) ?>
   <script src="<?=$PATH.'/scripts/bootstrap.bundle.min.js'?>"></script>
 </body>

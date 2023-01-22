@@ -4,7 +4,7 @@
   require_once('./../auth/connect_db.php'); 
   require_once('./../components/navbar.php'); 
   require_once('./../components/footer.php'); 
-  require_once('./../auth/settings.php'); 
+  require_once('./../auth/settings.php');
 
   if(!isset($_SESSION['username'])) {
     header('Location: ./../login.php');
@@ -15,10 +15,17 @@
     header('Location: ./select_category.php');
     die();
   }
+
   $quizType = $_GET['type'];
   $quizQuestionNumber = 10;
-  $inputValues = array();
+
   $quizInfo = getQuizInfo($quizType, $quizQuestionNumber, $conn);
+
+  insertQuizStart($_SESSION['username'], $quizType, $conn);
+
+  $_SESSION['quizInfo'] = $quizInfo;
+  $_SESSION['quizType'] = $quizType;
+
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +38,9 @@
   <link rel="stylesheet" href="<?= $PATH . '/style/bootstrap.min.css' ?>">
   <link rel="stylesheet" href="<?= $PATH . '/style/style.css' ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@700&display=swap" rel="stylesheet">
-  <title>Kvizzi | <?=$quizType?></title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@700&display=swap" rel="stylesheet">
+  <title>Kvizzi | <?= $quizType ?></title>
 </head>
 <body>
   <?php generateNavbar('kviz', $PATH) ?>
@@ -49,30 +56,30 @@
             <h4 class="display-20 display-md-18 display-lg-16 mt-3">Pitanja</h4>
         </div>
         <hr />
-        <form method='post' action='./quiz/quiz_submit.php' id="quizForm">
+        <form method='post' action="./quiz/quiz_submit.php"  id="quizForm">
         <?php for($i = 0; $i < sizeof($quizInfo['id']); $i++) { ?>
           <div class="row mb-1 mt-3">
             <p class="question_text d-block">
               <?= $i + 1 . '. ' . $quizInfo['question'][$i] ?>
             </p>
             <div>
-              <?php foreach($quizInfo['answers'][$i] as $answers): ?>
+              <?php for($j = 0; $j < sizeof($quizInfo['answers'][$i]); $j++) { ?>
                 <div>
                   <?php 
-                    $w_100 = '';
-                    if($quizInfo['type'][$i] == 'input') {
-                      $w_100 = 'w-100 form-control';
-                    }
+                    $w_100 = $quizInfo['type'][$i] == 'input' ? 'w-100 form-control' : '';
+                    $brackets = $quizInfo['type'][$i] == 'checkbox' ? '[]' : '';
+                    $value = $quizInfo['type'][$i] == 'input' ? '' : ($j + 1);
                   ?>
-                  <label class="answers_text d-inline">
-                  <input class="<?= $w_100 ?>" type="<?= $quizInfo['type'][$i] ?>" name="question_<?=$i + 1?>[]"/>
                   
-                  <?php if($quizInfo['type'][$i] != 'input'): ?>
-                    <?= $answers ?>
-                  <?php endif; ?>
+                  <label class="answers_text d-inline">
+                    <input class="<?= $w_100 ?>" type="<?= $quizInfo['type'][$i] ?>" name="question_<?=$i + 1 . $brackets?>" value="<?= $value ?>"/>
+                    
+                    <?php if($quizInfo['type'][$i] != 'input'): ?>
+                      <?= $quizInfo['answers'][$i][$j] ?>
+                    <?php endif; ?>
                   </label>
                 </div>
-              <?php endforeach; ?>
+              <?php } ?>
             </div>
           </div>
           <hr />

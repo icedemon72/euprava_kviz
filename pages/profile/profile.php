@@ -5,7 +5,7 @@
   require_once('./../../auth/connect_db.php');
   require_once('./my_profile_functions.php');
 
-  if($_GET['user'] == $_SESSION['username']) {
+  if($_GET['user'] == @$_SESSION['username']) {
     header('Location: ./my_profile.php');
   }
 
@@ -20,9 +20,9 @@
   $quiz = getQuizDetails($_GET['user'], $conn);
   $achievements = getAchievements($_GET['user'], $conn);
   $questionCount = getAddedQuestions($_GET['user'], $conn);
+  $quizInfo = getQuizInfo($_GET['user'], $conn);
 
-  
-
+  $quizHistory = (sizeof($quiz['id']) < 10) ? sizeof($quiz['id']) : 10;
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?= $PATH . '/style/bootstrap.min.css' ?>">
   <link rel="stylesheet" href="<?= $PATH . '/style/style.css' ?>">
-  <title>Kvizzi | <?=$_GET['user']?></title>
+  <title>Kvizzi | <?= $_GET['user'] ?></title>
 </head>
 <body>
   <?php
@@ -69,13 +69,13 @@
           <div class="p-4 d-flex justify-content-end text-center">
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?= $quiz ?></h5><small class="text-muted">Kvizova odigrano</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= sizeof($quiz['id']) ?></h5><small class="text-muted">Kvizova odigrano</small>
               </li>
               <li class="list-inline-item">
                 <h5 class="font-weight-bold mb-0 d-block"><?=$questionCount?></h5><small class="text-muted">Pitanja dodato</small>
               </li>
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted">Prosečna ocena</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $quizInfo['averageScore'] ?></h5><small class="text-muted">Prosečna ocena</small>
               </li>
             </ul>
           </div>
@@ -124,10 +124,32 @@
 
         <div class="py-4 px-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Pokušaji kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>
+            <h5 class="mb-0">Zadnjih <?= $quizHistory ?> pokušaja kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>
           </div>
-          <div class="row">
-          </div>
+
+          <?php for($i = 0; $i < sizeof($quiz['id']) && $i < 10; $i++) { ?>
+            <?php 
+              $time_finished = 'DNF';
+              if($quiz['score'][$i] == NULL) {
+                $quiz['score'][$i] = '-';
+              } else {
+                $time_finished = (new DateTime($quiz['time_finished'][$i]))->format('d. M Y. H:i:s');
+              }
+            ?>
+            <div class="row">
+              <div class="col-md-11 col-sm-9 col-xs-6">
+                <div class="card-block">
+                  <h6 class="card-title">Pokušaj #<?= sizeof($quiz['id']) - $i ?></h6>
+                  <div class="">
+                    <p >Rezultat: <?= $quiz['score'][$i] ?></p>
+                    <p>Igran: <?= (new DateTime($quiz['time_started'][$i]))->format('d. M Y. H:i:s') ?></p>
+                    <p>Završen: <?= $time_finished ?></p>
+                  </div>
+                </div>
+              </div>
+              <hr />
+            </div>
+          <?php } ?>
         </div>
       </div>
     </div>

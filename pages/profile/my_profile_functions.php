@@ -99,21 +99,66 @@
   
   /*CHANGES NEEDED*/function getQuizDetails($user, $conn) {
     $id = getIdByUser($user, $conn);
+    
+    $resultArray = array(
+      'id' => array(),
+      'score' => array(),
+      'time_started' => array(),
+      'time_finished' => array()
+    );
+
     $stmt = $conn->prepare(
       "SELECT *
       FROM quiz_playing
-      WHERE users_id = ?;"
+      WHERE quiz_playing.users_id = ?
+      ORDER BY quiz_playing.id DESC;"
     );
 
-    $stmt->bind_param('s', $id);
+    $stmt->bind_param('i', $id);
     $stmt->execute();
-    $stmt->store_result();
+    $result = $stmt->get_result();
 
+    while($row = $result->fetch_assoc()) {
+     foreach ($resultArray as $key => $value) {
+          array_push($resultArray[$key], $row[$key]);
+     }
+    } 
 
+    return $resultArray;
 
-    return($stmt->num_rows()); // DODATI ZA OSTALO...
+    print_r($resultArray);
   }
-  
+
+  function getQuizInfo($user, $conn) {
+    $userId = getIdByUser($user, $conn);
+    $count = 0;
+    $score = 0;
+    $valuesArray = array();
+
+    $stmt = $conn->prepare(
+      "SELECT quiz_playing.score
+      FROM quiz_playing
+      WHERE quiz_playing.users_id = ?;"
+    );
+
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    while($row = $res->fetch_assoc()) {
+      $score += $row['score'];
+      $count++;
+    }
+
+    $stmt->free_result();
+    $stmt->close();
+
+    $valuesArray['averageScore'] = ($count == 0) ? 'N/A' : number_format((float) ($score / $count), 2, '.', '');
+
+    
+    return $valuesArray;
+  }
+
   function getAchievements($user, $conn) {    
     $stmt = $conn->prepare(
       "SELECT *

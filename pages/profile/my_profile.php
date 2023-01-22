@@ -14,6 +14,9 @@ $userInfo = getInfoFromUser($_SESSION['username'], $conn);
 $quiz = getQuizDetails($_SESSION['username'], $conn);
 $achievements = getAchievements($_SESSION['username'], $conn);
 $questionCount = getAddedQuestions($_SESSION['username'], $conn);
+$quizInfo = getQuizInfo($_SESSION['username'], $conn);
+
+$quizHistory = (sizeof($quiz['id']) < 10) ? sizeof($quiz['id']) : 10;
 ?>
 
 <!DOCTYPE html>
@@ -66,13 +69,13 @@ $questionCount = getAddedQuestions($_SESSION['username'], $conn);
           <div class="p-4 d-flex justify-content-end text-center">
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?= $quiz ?></h5><small class="text-muted">Kvizova odigrano</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= sizeof($quiz['id']) ?></h5><small class="text-muted">Kvizova odigrano</small>
               </li>
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?=$questionCount?></h5><small class="text-muted">Pitanja dodato</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $questionCount ?></h5><small class="text-muted">Pitanja dodato</small>
               </li>
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted">Prosečna ocena</small>
+                <h5 class="font-weight-bold mb-0 d-block"><?= $quizInfo['averageScore'] ?></h5><small class="text-muted">Prosečna ocena</small>
               </li>
             </ul>
           </div>
@@ -84,32 +87,32 @@ $questionCount = getAddedQuestions($_SESSION['username'], $conn);
           </div>
         </div>
         <div class="px-4 py-3">
-        <h5 class="mb-0">Dostignuća</h5>
+          <h5 class="mb-0">Dostignuća</h5>
         </div>
         <?php for ($i = 0; $i < sizeof($achievements['title']); $i++) : ?>
           <?php
-            $class = 'achievement_locked';
-            if($achievements['hasAchievement'][$i]){
-              $class = 'achievement_unlocked';
-            }  
+          $class = 'achievement_locked';
+          if ($achievements['hasAchievement'][$i]) {
+            $class = 'achievement_unlocked';
+          }
           ?>
           <section>
             <div class="container">
               <div class="card">
-                <div class="row <?=$class?>">
+                <div class="row <?= $class ?>">
                   <div class="col-md-1 col-sm-3 col-xs-3">
-                    <img src="<?=$PATH.'/images/achievements/'.$achievements['image'][$i]?>" class="w-100 w-xs-50">
+                    <img src="<?= $PATH . '/images/achievements/' . $achievements['image'][$i] ?>" class="w-100 w-xs-50">
                   </div>
                   <div class="col-md-11 col-sm-9 col-xs-6">
                     <div class="card-block">
                       <h6 class="achievement_title card-title"><?= ($achievements['title'][$i]) ?></h6>
                       <div class="d-lg-flex justify-content-between inline">
                         <p><?= ($achievements['description'][$i]) ?></p>
-                        <?php if($class='achievement_unlocked'): ?>
-                          <small class="text-muted"><?= $achievements['dateUnlocked'][$i]?></small>
+                        <?php if ($class = 'achievement_unlocked') : ?>
+                          <small class="text-muted"><?= $achievements['dateUnlocked'][$i] ?></small>
                         <?php endif; ?>
                       </div>
-                      
+
                     </div>
                   </div>
 
@@ -121,10 +124,32 @@ $questionCount = getAddedQuestions($_SESSION['username'], $conn);
 
         <div class="py-4 px-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Pokušaji kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>
+            <h5 class="mb-0">Zadnjih <?= $quizHistory ?> pokušaja kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>
           </div>
-          <div class="row">
-          </div>
+
+          <?php for($i = 0; $i < sizeof($quiz['id']) && $i < 10; $i++) { ?>
+            <?php 
+              $time_finished = 'DNF';
+              if($quiz['score'][$i] == NULL) {
+                $quiz['score'][$i] = '-';
+              } else {
+                $time_finished = (new DateTime($quiz['time_finished'][$i]))->format('d. M Y. H:i:s');
+              }
+            ?>
+            <div class="row">
+              <div class="col-md-11 col-sm-9 col-xs-6">
+                <div class="card-block">
+                  <h6 class="card-title">Pokušaj #<?= sizeof($quiz['id']) - $i ?></h6>
+                  <div class="">
+                    <p >Rezultat: <?= $quiz['score'][$i] ?></p>
+                    <p>Igran: <?= (new DateTime($quiz['time_started'][$i]))->format('d. M Y. H:i:s') ?></p>
+                    <p>Završen: <?= $time_finished ?></p>
+                  </div>
+                </div>
+              </div>
+              <hr />
+            </div>
+          <?php } ?>
         </div>
       </div>
     </div>

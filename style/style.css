@@ -152,6 +152,32 @@ hr {
   border-top: 1px solid #00465F;
 }
 
+/* Quiz Submit */
+
+.quiz_submit_row {
+  height: 30vh;
+  margin-top: 30vh !important;
+  color: #FFCD00;
+}
+
+.quiz_submit_col {
+  background-color: #00465fd0;
+  border: 2px dashed #002C3C;
+}
+
+.result_container {
+  margin-top: 15%;
+}
+
+/* Quiz Result */
+.result_larger {
+  color: #69B578;
+}
+
+.result_smaller {
+  color: #9B2915;
+}
+
 /* Profile */
 
 .profile_body {
