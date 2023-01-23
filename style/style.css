@@ -52,6 +52,10 @@ input.dropdown-item {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+.green_field {
+  color: #69B578 !important;
+}
+
 /* Footer */
 
 .footer_container {
@@ -281,7 +285,42 @@ hr {
   max-height: 100px;
 }
 
-/* categories */
+/* Search */
+.search_profile:hover {
+  cursor: pointer;
+}
+
+.search_profile:hover .card {
+  background-color: #ffcc001f;
+}
+
+/* Stats */
+.stats_link:link, .stats_link:visited {
+  color: #002C3C;
+  text-decoration: none;
+}
+
+ul li .page-link {
+  background-color: #002C3C;
+  color: #FFCD00;
+}
+
+ul li .page-link:hover {
+  background-color: #00465F;
+  color: #FFCD00;
+}
+
+.page-item.active .page-link {
+  border-color: #002C3C;
+  color: #FFCD00;
+}
+
+ul > li.active.page-item > a {
+  background-color: #00465F !important;
+  color: #FFCD00;
+}
+
+/* Categories */
 
 .card_category:hover {
   cursor: pointer;
@@ -340,7 +379,7 @@ hr {
   transition: 0.2s ease-in;
 }
 
-/* questions */
+/* Questions */
 .wrong_answer {
   background-color: #9b291560;
   border-color: #9B2915;
@@ -366,7 +405,7 @@ hr {
 
 
 
-/* media queries */
+/* Media queries */
 @media only screen and (max-width: 991px) {
   .reg_image {
     display: none;

@@ -47,10 +47,26 @@
         <li class="nav-item">
           <a class="nav-link <?=$isActive[2]?>" href="<?=$PATH.'/pages/about_us.php' ?>">O nama</a>
         </li>
+        <?php if(@$_SESSION['admin']): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle green_field" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              ADMIN
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Panel</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item " href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Pitanja</a></li>
+              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Kategorije</a></li>
+              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Odigrani kvizovi</a></li>
+            </ul>
+          </li>
+        <?php endif; ?>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" required oninvalid="this.setCustomValidity('Unesite nešto.')" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form method="get" action="<?= $PATH.'/pages/profile/search.php' ?>" class="d-flex">
+        <input name="search" class="form-control me-2" type="search" placeholder="Pretraga korisnika" aria-label="Search" oninvalid="this.setCustomValidity('Unesite nešto.')" />
+        <button class="btn btn-outline-success" type="submit">Pretraži</button>
       </form>
 
       <div class="navbar-nav ps-3 dropdown dropstart d-md-flex align-items-center">          

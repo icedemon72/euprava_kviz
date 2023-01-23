@@ -4,6 +4,11 @@
   require_once('./components/footer.php');
   require_once('./auth/settings.php');
 
+  $welcomeMessage = '';
+
+  if(isset($_SESSION['username'])) {
+    $welcomeMessage = ', ' . $_SESSION['username'] . ',';
+  }
 ?>
 
 <!DOCTYPE html>
@@ -22,11 +27,13 @@
 
 <body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
-  <?php
-    generateNavbar('pocetna', $PATH);
-  ?>
+  <?php generateNavbar('pocetna', $PATH) ?>
 
-  dasdasFGADGWSEGTQWEGMQAWMFVK
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <h5 class="mb-3">Dobrodošli<?= $welcomeMessage ?> na plod naše ljubavi - KVIZZI!</h5>
+    </div>
+  </div>
   
   <?php generateFooter($PATH) ?>
 

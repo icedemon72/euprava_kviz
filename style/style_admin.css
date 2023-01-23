@@ -1,3 +1,7 @@
 .admin_link:link, .admin_link:visited {
   text-decoration: none;
 }
+
+tr.Admin {
+  background-color: #69b57865;
+}

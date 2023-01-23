@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2023 at 08:09 PM
+-- Generation Time: Jan 23, 2023 at 03:22 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -345,7 +345,12 @@ CREATE TABLE `is_admin` (
 --
 
 INSERT INTO `is_admin` (`id`, `users_id`, `date_assigned`, `date_resigned`, `questions_approved`, `categories_added`, `status`) VALUES
-(1, 1, '2023-01-12 13:26:16', NULL, 0, 0, b'1');
+(1, 1, '2023-01-12 13:26:16', NULL, 0, 0, b'1'),
+(2, 6, '2023-01-23 15:10:52', '2023-01-23 15:19:38', 0, 0, b'0'),
+(3, 5, '2023-01-23 15:11:11', '2023-01-23 15:20:26', 0, 0, b'0'),
+(4, 4, '2023-01-23 15:11:49', '2023-01-23 15:18:33', 0, 0, b'0'),
+(5, 4, '2023-01-23 15:18:19', '2023-01-23 15:19:07', 0, 0, b'0'),
+(7, 2, '2023-01-23 15:20:33', NULL, 0, 0, b'1');
 
 -- --------------------------------------------------------
 
@@ -523,7 +528,10 @@ INSERT INTO `quiz_playing` (`id`, `time_started`, `time_finished`, `score`, `qui
 (33, '2023-01-22 19:32:55', '2023-01-22 19:33:17', '10.00', 1, 1),
 (34, '2023-01-22 19:33:20', '2023-01-22 19:33:43', '10.00', 1, 1),
 (35, '2023-01-22 19:55:09', '2023-01-22 19:55:29', '9.00', 1, 1),
-(36, '2023-01-22 19:56:00', '2023-01-22 19:56:29', '9.00', 1, 1);
+(36, '2023-01-22 19:56:00', '2023-01-22 19:56:29', '9.00', 1, 1),
+(37, '2023-01-22 22:34:32', '2023-01-22 22:34:54', '9.00', 1, 2),
+(38, '2023-01-22 22:35:52', '2023-01-22 22:36:09', '8.00', 1, 2),
+(39, '2023-01-23 00:18:34', '2023-01-23 00:18:56', '8.00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -599,11 +607,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-22', ''),
-(2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-22', NULL),
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-23', ''),
+(2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-23', NULL),
 (3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
 (4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
-(5, '1234@gmail.com', '123', 'e10adc3949ba59abbe56e057f20f883e', 'XYZ', 'YXZ', '2010-10-05', '2023-01-12', '2023-01-12', 'IMAM OPIS!!!');
+(5, '1234@gmail.com', '123', 'e10adc3949ba59abbe56e057f20f883e', 'XYZ', 'YXZ', '2010-10-05', '2023-01-12', '2023-01-12', 'IMAM OPIS!!!'),
+(6, 'test1@gmail.com', 'test', 'cc03e747a6afbbcbf8be7668acfebee5', 'test', 'test', '2022-12-13', '2023-01-23', '2023-01-23', NULL),
+(7, 'test11@yahoo.com', 'test11', 'cc03e747a6afbbcbf8be7668acfebee5', 'testo', 'testo', '1999-03-11', '2023-01-23', '2023-01-23', NULL),
+(8, 'filler@yahoo.com', 'filler', '298b45837188706b7c3c9ff4ae374edc', 'Filler', 'Fill', '2000-03-03', '2023-01-23', '2023-01-23', NULL),
+(9, 'lol@gmail.com', 'lolol', '9f2788a951100afe63326ea54ce835ce', 'x', 'sda', '2000-03-12', '2023-01-23', '2023-01-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -774,7 +786,7 @@ ALTER TABLE `answers_not_existing_requests`
 -- AUTO_INCREMENT for table `is_admin`
 --
 ALTER TABLE `is_admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -798,7 +810,7 @@ ALTER TABLE `questions_not_existing_requests`
 -- AUTO_INCREMENT for table `quiz_playing`
 --
 ALTER TABLE `quiz_playing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `quiz_type`
@@ -816,7 +828,7 @@ ALTER TABLE `quiz_type_requests`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_has_achievement`

@@ -243,7 +243,7 @@
     </div>
   </form>
 
-  <div class="container mt-5 mb-5">
+  <!-- <div class="container mt-5 mb-5">
       <div class="row gutters profile_row shadow rounded overflow-hidden">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="card h-100">
@@ -262,7 +262,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <?php if ($successEx || $successReq) : ?>
     <script>
