@@ -57,9 +57,9 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item " href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Pitanja</a></li>
-              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Kategorije</a></li>
-              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_panel.php'?>">Odigrani kvizovi</a></li>
+              <li><a class="dropdown-item " href="<?=$PATH.'/pages/admin/admin_questions.php'?>">Pitanja</a></li>
+              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_category.php'?>">Kategorije</a></li>
+              <li><a class="dropdown-item" href="<?=$PATH.'/pages/admin/admin_quiz_played.php'?>">Odigrani kvizovi</a></li>
             </ul>
           </li>
         <?php endif; ?>
@@ -71,7 +71,7 @@
 
       <div class="navbar-nav ps-3 dropdown dropstart d-md-flex align-items-center">          
           <?php if (isset($_SESSION['username'])) : ?>
-            <a class="d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="d-flex justify-content-center align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="<?=$PATH.'/images/account_image.png'?>" height="40" width="40" alt="Nalog" loading="lazy" />
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuAvatar">

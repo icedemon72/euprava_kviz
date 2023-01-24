@@ -125,7 +125,7 @@
 
         <div class="py-4 px-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Zadnjih <?= $quizHistory ?> pokušaja kvizzivanja</h5><a href="#" class="btn btn-link text-muted">Prikaži sve</a>
+            <h5 class="mb-0">Zadnjih <?= $quizHistory ?> pokušaja kvizzivanja</h5>x
           </div>
 
           <?php for($i = 0; $i < sizeof($quiz['id']) && $i < 10; $i++) { ?>

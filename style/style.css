@@ -402,9 +402,6 @@ ul > li.active.page-item > a {
   box-shadow: 0 0 5px #69b578b7;
 }
 
-
-
-
 /* Media queries */
 @media only screen and (max-width: 991px) {
   .reg_image {
@@ -422,5 +419,23 @@ ul > li.active.page-item > a {
 
   .team-style1 .team-info {
     padding: 15px;
+  }
+  
+  .dropdown-menu.show {
+    width: 100%;
+  }
+  
+  #navbarDropdownMenuAvatar > img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .nav-item, .dropdown-item {
+    padding: 10px;
+    text-align: center;
+  }
+
+  #navbarDropdownMenuAvatar {
+    width: 100%;
   }
 }

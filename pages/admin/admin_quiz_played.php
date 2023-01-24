@@ -5,23 +5,11 @@ if (!$_SESSION['admin'] || !isset($_SESSION['username'])) {
   exit();
 }
 
-$superAdmin = false;
-
-$hideClass = ' ';
-
-if($_SESSION['username'] == 'ice') {
-  $superAdmin = true;
-  $hideClass = 'd-none d-md-table-cell';
-}
-
 require_once('./../../auth/connect_db.php');
 require_once('./../../components/navbar.php');
 require_once('./../../components/footer.php');
 require_once('./../../auth/settings.php');
 require_once('./admin_panel_functions.php');
-
-$selectedArray = array('selected', '', '');
-$countedUsers = countUsers($conn);
 
 if(isset($_GET['pageNum']) && $_GET['pageNum'] != '') {
   $pageNum = $_GET['pageNum'];
@@ -33,7 +21,11 @@ if($pageNum < 1) {
   $pageNum = 1;
 }
 
-$totalNumberOfPages = ceil($countedUsers / 10);
+
+$countQuizPlaying = countQuizPlaying($conn);
+
+$totalNumberOfPages = ceil($countQuizPlaying / 10);
+
 $prevPage = $pageNum - 1;
 if($prevPage < 1) {
   $prevPage = $pageNum;
@@ -44,30 +36,7 @@ if($nextPage > $totalNumberOfPages) {
   $nextPage = $totalNumberOfPages;
 }
 
-$userInfo = getSortedArrayBy('username', ($pageNum - 1) * 10, 10, $conn);
-
-if (isset($_GET['sortsubmit'])) {
-  $userInfo = getSortedArrayBy($_GET['sortby'], 0, 10, $conn);
-
-  $selectedArray = ($_GET['sortby'] == 'email') ? array('', '', 'selected') : (
-      ($_GET['sortby'] == 'date') ? array('', 'selected', '') : array('selected', '', '')
-    );
-}
-
-if(isset($_POST['permission']) && $superAdmin) {
-  $userIndex = (int) explode("_", $_POST['permission'])[0];
-  $userPermission = (string) explode("_", $_POST['permission'])[1];
-  $usernameToChange = $userInfo['username'][$userIndex];
-  if($userInfo['username'][$userIndex] != 'ice') {
-    if($userInfo['is_admin'][$userIndex][0] == 'Korisnik' && $userPermission == 'Admin') {
-      giveAdmin($userInfo['username'][$userIndex], $conn);
-      header("Refresh:0"); 
-    } else if ($userInfo['is_admin'][$userIndex][0] == 'Admin' && $userPermission == 'Korisnik') {
-      removeAdmin($userInfo['username'][$userIndex], $conn);
-      header("Refresh:0"); 
-    }
-  }
-}
+$quizInfo = getQuizPlayedDetails(10, ($pageNum - 1) * 10, $conn);
 
 ?>
 
@@ -82,72 +51,48 @@ if(isset($_POST['permission']) && $superAdmin) {
   <link rel="stylesheet" href="<?= $PATH . '/style/bootstrap.min.css' ?>">
   <link rel="stylesheet" href="<?= $PATH . '/style/style.css' ?>">
   <link rel="stylesheet" href="<?= $PATH . '/style/style_admin.css' ?>">
-  <title>Kvizzi | Admin panel</title>
+  <title>Kvizzi | Admin Panel - Odigrani kvizovi</title>
 
 </head>
 
 <body>
   <!-- Navbar -->
   <?php generateNavbar('', $PATH); ?>
-  <div class="container-fluid mt-5">
-    <div class="row d-flex justify-items-start">
-      <div class="col-lg-3 col-md-6 offset-md-5 offset-lg-7 ">
-        <label for="sortby">Sortiraj po:</label>
-        <form class="d-flex" method="get">
-          <select class="form-select d-inline mx-1" aria-label="Default select example" name="sortby">
-            <option value="username" <?= $selectedArray[0] ?>>Korisničkom imenu</option>
-            <option value="date" <?= $selectedArray[1] ?>>Datumu pridruživanja</option>
-            <option value="email" <?= $selectedArray[2] ?>>E-mail adresi</option>
-          </select>
-          <input class="btn btn-block change_profile_btn align-middle" type="submit" value="Primeni" name="sortsubmit" />
 
-        </form>
-
-      </div>
-    </div>
-
-    <div class="row d-flex justify-content-center">
+  <div class="row d-flex justify-content-center mt-5">
+    <h5 class="mb-3 text-center">Rezultati</h5>
       <div class="col-lg-8 col-md-10 col-sm-12">
         <table class="table table-striped table-responsive">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Korisničko ime</th>
-              <th class="d-none d-md-table-cell" scope="col">Ime i prezime</th>
-              <th scope="col">E-mail</th>
-              <th class="d-none d-md-table-cell" scope="col">Registrovan</th>
-              <th class="<?= $hideClass ?>" scope="col">Profil</th>
-              <?php if($superAdmin): ?>
-                <th scope="col">Status</th>
-              <?php endif; ?>
+              <th scope="col">ID</th>
+              <th scope="col">Kategorija</th>
+              <th scope="col">Početak</th>
+              <th scope="col">Kraj</th>
+              <th scope="col">Korisnik</th>
+              <th scope="col">Rezultat</th>
             </tr>
           </thead>
           <tbody>
-            <?php for ($i = 0; $i < sizeof($userInfo['username']); $i++) { ?>
-              <tr class="<?= $userInfo['is_admin'][$i][0] ?>">
-                <th scope="row"><?= (($pageNum - 1) * 10) + ($i + 1) ?></th>
-                <td title=<?= $userInfo['username'][$i] ?>><?= shortenString($userInfo['username'][$i]) ?></td>
-                <td class="d-none d-md-table-cell" title=<?= $userInfo['name'][$i] ?>> <?= shortenString($userInfo['name'][$i], 16) ?></td>
-                <td title=<?= $userInfo['email'][$i] ?>><?= shortenString($userInfo['email'][$i], 24) ?></td>
-                <td class="d-none d-md-table-cell"><?= $userInfo['registration_date'][$i] ?></td>
-                <td class="<?= $hideClass ?>"><a class="admin_link" href="<?= $PATH . '/pages/profile/profile.php?user=' . $userInfo['username'][$i] ?>">[&#8594;]</a></td>
-                <?php if($superAdmin): ?>
-                  <td class="<?php $superAdmin ? 'd-none d-md-table-cell' : '' ?>">
-                    <form method="post">
-                      <select onchange="this.form.submit()" name="permission">
-                        <option value="<?= $i. '_' . $userInfo['is_admin'][$i][0] ?>" selected><?=$userInfo['is_admin'][$i][0]?></option>
-                        <option value="<?= $i. '_' . $userInfo['is_admin'][$i][1] ?>"><?=$userInfo['is_admin'][$i][1]?></option>
-                      </select>
-                    </form>
-                  </td>
-              <?php endif; ?>
+            <?php for($i = 0; $i < sizeof($quizInfo['id']); $i++): ?>
+              <tr onclick="window.location.href='<?= $PATH.'/pages/quiz/result.php?id='.$quizInfo['id'][$i] ?>'">
+                <th scope="row">#<?= $quizInfo['id'][$i] ?></th>
+                <td scope="col"><?= $quizInfo['category_name'][$i] ?></td>
+                <td scope="col"><?= $quizInfo['time_started'][$i] ?></td>
+                <td scope="col"><?= $quizInfo['time_finished'][$i] ?></td>
+                <td scope="col">
+                  <a class="admin_link" href="<?= $PATH.'/pages/profile/profile.php?user='.$quizInfo['users_name'][$i] ?>">
+                    <?= shortenString($quizInfo['users_name'][$i], 12) ?>
+                  </a>
+                </td>
+                <td scope="col"><?= $quizInfo['score'][$i] ?></td>
               </tr>
-            <?php } ?>
+            <?php endfor; ?>
           </tbody>
         </table>
         <div class="container">
           <div class="row d-flex justify-content-center">
-            <p class="text-center">Pronadjeno <?= $countedUsers ?> korisnika</p>
+            <p class="text-center">Pronadjeno <?= $countQuizPlaying ?> instanci</p>
             <div class="d-flex justify-content-center">
               <div class="container-fluid d-flex justify-content-center mt-5 mb-5">
                 <ul class="pagination">
@@ -213,9 +158,8 @@ if(isset($_POST['permission']) && $superAdmin) {
         </div>
       </div>
     </div>
-  </div>
+
 
   <script src="<?= $PATH . '/scripts/bootstrap.bundle.min.js' ?>"></script>
 </body>
-
 </html>

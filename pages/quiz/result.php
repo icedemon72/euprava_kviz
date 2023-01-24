@@ -129,14 +129,16 @@
         <small class="text-muted text-right">*Samo završeni pokušaji su uračunati</small>
       </div>
     </div>
-    <div class="row d-flex justify-content-center mt-5">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center mb-5">
-        <a class="btn mt-3 btn-block edit_profile_btn" href="./../quiz.php">Igraj ponovo?</a>
+    <?php if(isset($_GET['source'])): ?>
+      <div class="row d-flex justify-content-center mt-5">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center mb-5">
+          <a class="btn mt-3 btn-block edit_profile_btn" href="./../quiz.php">Igraj ponovo?</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center mb-5">
+          <a class="btn mt-3 btn-block edit_profile_btn" href="./../profile/my_profile.php">Idi na profil?</a>
+        </div>
       </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-2 d-flex justify-content-center mb-5">
-        <a class="btn mt-3 btn-block edit_profile_btn" href="./../profile/my_profile.php">Idi na profil?</a>
-      </div>
-    </div>
+    <?php endif; ?>
   </div>
 
   <?php generateFooter($PATH) ?>

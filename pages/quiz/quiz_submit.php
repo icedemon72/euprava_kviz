@@ -64,7 +64,7 @@
   <?php if($success): ?>
     <script>
       window.setTimeout(x => { 
-        window.location = "<?=$PATH.'/pages/quiz/result.php?id='.$resultId?>";
+        window.location = "<?=$PATH.'/pages/quiz/result.php?source=quiz&id='.$resultId?>";
       }, 0);
       window.history.replaceState(null, null, window.location.href);
     </script>

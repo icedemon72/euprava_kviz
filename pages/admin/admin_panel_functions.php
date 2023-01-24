@@ -1,4 +1,5 @@
 <?php
+  // admin_panel.php
   function shortenString($str, $length = 20) {
     if(strlen($str) > $length) {
       return (substr($str, 0, $length) . '...');
@@ -141,4 +142,157 @@
 
     return $count;
   }
+
+  // admin_quiz_played.php
+  function countQuizPlaying($conn) {
+    $stmt = $conn->prepare(
+      "SELECT quiz_playing.id
+      FROM quiz_playing;"
+    );
+
+    $stmt->execute();
+    $stmt->store_result();
+    $count = $stmt->num_rows();
+    $stmt->free_result();
+    $stmt->close();
+
+    return $count;
+  }
+
+  function getQuizPlayedDetails($limit, $offset, $conn) {
+    $resultArray = array(
+      'id' => array(),
+      'time_started' => array(),
+      'time_finished' => array(),
+      'score' => array(),
+      'category_name' => array(),
+      'users_name' => array()
+    );
+    
+    $stmt = $conn->prepare(
+      "SELECT 
+        quiz_playing.id,
+        quiz_playing.time_started,
+        quiz_playing.time_finished,
+        quiz_playing.score,
+        quiz_type.name AS category_name,
+        users.username AS 'users_name'
+      FROM quiz_playing
+      INNER JOIN quiz_type
+        ON quiz_playing.quiz_type_id = quiz_type.id
+      INNER JOIN users
+        ON quiz_playing.users_id = users.id
+      ORDER BY quiz_playing.id ASC
+      LIMIT ?, ?;"
+    );
+    $stmt->bind_param('ii', $offset, $limit);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    while($row = $res->fetch_assoc()) {
+      foreach($resultArray as $key => $value) {
+        array_push($resultArray[$key], $row[$key]);
+      }
+    }
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return $resultArray;
+  
+  }
+
+  // admin_category.php
+  function countCategoryRequests($conn) {
+    $stmt = $conn->prepare(
+      "SELECT quiz_type_requests.id
+      FROM quiz_type_requests
+      WHERE quiz_type_requests.active = 1;"
+    );
+
+    $stmt->execute();
+    $stmt->store_result();
+    $count = $stmt->num_rows();
+    $stmt->free_result();
+    $stmt->close();
+
+    return $count;
+  }
+
+  function getCategoryRequests($limit, $offset, $conn) {
+    $resultArray = array(
+      'id' => array(),
+      'name' => array(),
+      'description' => array(),
+      'users_id' => array(),
+      'date_created' => array(),
+      'date_accessed' => array(),
+      'is_admin_id' => array()
+    );
+
+    $stmt = $conn->prepare(
+      "SELECT * 
+      FROM quiz_type_requests
+      WHERE quiz_type_requests.active = 1
+      ORDER BY quiz_type_requests.date_created ASC
+      LIMIT ?, ?;"
+    );
+
+    $stmt->bind_param('ii', $offset, $limit);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    while($row = $res->fetch_assoc()) {
+      foreach($resultArray as $key => $value) {
+        array_push($resultArray[$key], $row[$key]);
+      }
+    }
+
+    $stmt->free_result();
+    $stmt->close();
+
+    return $resultArray;
+  }
+
+  function setStatusToZeroById($id, $conn) {
+
+  }
+
+  function addCategoryById($id, $username, $conn) {
+    $date = date_format(date_create(), 'Y-m-d H:i:s');
+
+    
+    $stmt = $conn->prepare(
+      "UPDATE quiz_type_requests
+      SET 
+        quiz_type_requests.date_accessed = ?,
+        quiz_type_requests.active = 0,
+        quiz_type_requests.is_admin_id = (
+          SELECT DISTINCT is_admin.id
+          FROM is_admin
+          INNER JOIN users
+          ON is_admin.users_id = (
+            SELECT DISTINCT users.id
+            FROM users
+            WHERE users.username = ?
+          )
+        )
+      WHERE quiz_type_requests.id = ?;"
+    );
+
+    $stmt->bind_param('ssi', $date, $username, $id);
+    $stmt->execute();
+
+    $stmt = $conn->prepare(
+      "INSERT INTO
+      questions_not_existing_requests"
+    );
+
+    $stmt->free_result();
+    $stmt->close();
+  }
+
+
+  
+
 ?>

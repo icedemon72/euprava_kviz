@@ -1,5 +1,6 @@
 .admin_link:link, .admin_link:visited {
   text-decoration: none;
+  color: #002C3C;
 }
 
 tr.Admin {

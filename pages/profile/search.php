@@ -65,7 +65,6 @@ $searchInfo = getResults($_GET['search'], $conn);
     </div>
   </div>
 
-
   <?php generateFooter($PATH); ?>
   <script src="<?= $PATH . '/scripts/bootstrap.bundle.min.js' ?>"></script>
 </body>

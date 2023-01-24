@@ -86,8 +86,7 @@
       $stmt = $conn->prepare(
         "SELECT *
         FROM is_admin
-        WHERE is_admin.id = (SELECT MAX(is_admin.id) FROM is_admin) 
-        AND is_admin.users_id = ? AND is_admin.status = 1;"
+        WHERE is_admin.id = (SELECT MAX(is_admin.id) FROM is_admin WHERE is_admin.users_id = ? AND is_admin.status = 1);"        
       );
       
       $stmt->bind_param('i', $user_id);

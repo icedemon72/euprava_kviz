@@ -16,7 +16,7 @@
     $pageNum = 1;
   }
 
-  $statsInfo = getSortedResult($pageNum - 1, $conn);
+  $statsInfo = getSortedResult(($pageNum - 1) * 10, $conn);
   $totalNumberOfPages = getTotalNumberOfPages(10, $conn);
 
 
