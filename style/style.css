@@ -63,6 +63,31 @@ input.dropdown-item {
   color: #FFF;
 }
 
+/* Index.php (Homepage) */
+.home_card {
+  background-color: #002C3C;
+  transition: 0.2s ease-in;
+}
+
+.home_card:hover {
+  background-color: #00465F;
+}
+
+.home_card img {
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+}
+
+.home_card h5, .home_card p {
+  color: #FFF;
+}
+
+.h6_link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* About us */
 
 .i_frame_map {

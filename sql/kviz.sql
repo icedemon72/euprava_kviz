@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2023 at 03:22 PM
+-- Generation Time: Jan 27, 2023 at 12:12 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -531,7 +531,8 @@ INSERT INTO `quiz_playing` (`id`, `time_started`, `time_finished`, `score`, `qui
 (36, '2023-01-22 19:56:00', '2023-01-22 19:56:29', '9.00', 1, 1),
 (37, '2023-01-22 22:34:32', '2023-01-22 22:34:54', '9.00', 1, 2),
 (38, '2023-01-22 22:35:52', '2023-01-22 22:36:09', '8.00', 1, 2),
-(39, '2023-01-23 00:18:34', '2023-01-23 00:18:56', '8.00', 1, 1);
+(39, '2023-01-23 00:18:34', '2023-01-23 00:18:56', '8.00', 1, 1),
+(40, '2023-01-25 08:53:24', '2023-01-25 08:53:59', '6.00', 1, 11);
 
 -- --------------------------------------------------------
 
@@ -577,11 +578,12 @@ CREATE TABLE `quiz_type_requests` (
 --
 
 INSERT INTO `quiz_type_requests` (`id`, `name`, `description`, `users_id`, `date_created`, `date_accessed`, `active`, `is_admin_id`) VALUES
-(3, 'hellothere', '1234', 1, '2023-01-14 18:34:07', NULL, b'1', NULL),
+(3, 'hellothere', '1234', 1, '2023-01-14 18:34:07', '2023-01-24 15:06:25', b'0', 1),
 (4, 'xd', 'sdadas', 1, '2023-01-14 18:35:55', NULL, b'1', NULL),
 (5, 'test 1', 'bla bla', 1, '2023-01-17 21:38:42', NULL, b'1', NULL),
 (6, 'Matematika', 'Kviz o matematici, formule, zadaci itd.', 1, '2023-01-18 00:01:36', NULL, b'1', NULL),
-(7, 'Fizika', '-', 2, '2023-01-18 00:45:15', NULL, b'1', NULL);
+(7, 'Fizika', '-', 2, '2023-01-18 00:45:15', NULL, b'1', NULL),
+(8, 'Test123', 'RaxD23131sd', 1, '2023-01-24 14:36:29', NULL, b'1', NULL);
 
 -- --------------------------------------------------------
 
@@ -607,7 +609,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `date_of_birth`, `registration_date`, `last_log_in`, `description`) VALUES
-(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-23', ''),
+(1, 'ice@gmail.com', 'ice', 'e10adc3949ba59abbe56e057f20f883e', 'Jovan', 'Isailovic', '2001-10-03', '2023-01-10', '2023-01-27', ''),
 (2, 'filip@gmail.com', 'filip', '99316929f57da4b64bf99b8f5d9e4b19', 'Filip', 'Radivojevic', '2001-03-12', '2023-01-11', '2023-01-23', NULL),
 (3, '123@gmail.com', '123456789012345678906749312879341879341879178914278142879412879412', '4297f44b13955235245b2497399d7a93', 'sdasdasd', 'dasasd', '2020-10-10', '2023-01-11', '2023-01-11', NULL),
 (4, 'cone@gmail.com', 'cone', 'ca72bf6284df79b19df339d0f45b9eb7', 'Nemanja', 'Lazarevic', '2001-07-25', '2023-01-12', '2023-01-12', NULL),
@@ -615,7 +617,9 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `first_name`, `last_
 (6, 'test1@gmail.com', 'test', 'cc03e747a6afbbcbf8be7668acfebee5', 'test', 'test', '2022-12-13', '2023-01-23', '2023-01-23', NULL),
 (7, 'test11@yahoo.com', 'test11', 'cc03e747a6afbbcbf8be7668acfebee5', 'testo', 'testo', '1999-03-11', '2023-01-23', '2023-01-23', NULL),
 (8, 'filler@yahoo.com', 'filler', '298b45837188706b7c3c9ff4ae374edc', 'Filler', 'Fill', '2000-03-03', '2023-01-23', '2023-01-23', NULL),
-(9, 'lol@gmail.com', 'lolol', '9f2788a951100afe63326ea54ce835ce', 'x', 'sda', '2000-03-12', '2023-01-23', '2023-01-23', NULL);
+(9, 'lol@gmail.com', 'lolol', '9f2788a951100afe63326ea54ce835ce', 'x', 'sda', '2000-03-12', '2023-01-23', '2023-01-23', NULL),
+(10, 'testiranje@test.com', 'testiranje_', '05a671c66aefea124cc08b76ea6d30bb', 'Test', 'Test', '2000-05-10', '2023-01-23', '2023-01-23', NULL),
+(11, 'tester@gmail.com', 'tester', 'e10adc3949ba59abbe56e057f20f883e', 'Test', 'Test', '2023-01-24', '2023-01-25', '2023-01-25', 'test opis');
 
 -- --------------------------------------------------------
 
@@ -653,7 +657,9 @@ INSERT INTO `user_has_achievement` (`id`, `users_id`, `achievements_id`, `status
 (17, 2, 10, b'1', '2023-01-21 17:02:19'),
 (18, 1, 2, b'1', '2023-01-22 19:30:52'),
 (19, 1, 3, b'1', '2023-01-22 19:56:29'),
-(20, 1, 20, b'1', '2023-01-22 19:56:29');
+(20, 1, 20, b'1', '2023-01-22 19:56:29'),
+(21, 11, 7, b'1', '2023-01-25 08:52:34'),
+(22, 11, 8, b'1', '2023-01-25 08:53:59');
 
 --
 -- Indexes for dumped tables
@@ -810,7 +816,7 @@ ALTER TABLE `questions_not_existing_requests`
 -- AUTO_INCREMENT for table `quiz_playing`
 --
 ALTER TABLE `quiz_playing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `quiz_type`
@@ -822,19 +828,19 @@ ALTER TABLE `quiz_type`
 -- AUTO_INCREMENT for table `quiz_type_requests`
 --
 ALTER TABLE `quiz_type_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_has_achievement`
 --
 ALTER TABLE `user_has_achievement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables

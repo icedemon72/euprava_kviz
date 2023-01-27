@@ -69,12 +69,12 @@ $quizHistory = (sizeof($quiz['id']) < 10) ? sizeof($quiz['id']) : 10;
           <div class="p-4 d-flex justify-content-end text-center">
             <ul class="list-inline mb-0">
               <li class="list-inline-item">
-                <h5 class="font-weight-bold mb-0 d-block"><?= sizeof($quiz['id']) ?></h5><small class="text-muted">Kvizova odigrano</small>
+                <h5 class="font-weight-bold mb-0 d-block" id="quizPlayed"><?= sizeof($quiz['id']) ?></h5><small class="text-muted">Kvizova odigrano</small>
               </li>
               <li class="list-inline-item">
                 <h5 class="font-weight-bold mb-0 d-block"><?= $questionCount ?></h5><small class="text-muted">Pitanja dodato</small>
               </li>
-              <li class="list-inline-item">
+              <li class="list-inline-item" id="averageResult">
                 <h5 class="font-weight-bold mb-0 d-block"><?= $quizInfo['averageScore'] ?></h5><small class="text-muted">Prosečna ocena</small>
               </li>
             </ul>
@@ -96,7 +96,7 @@ $quizHistory = (sizeof($quiz['id']) < 10) ? sizeof($quiz['id']) : 10;
             $class = 'achievement_unlocked';
           }
           ?>
-          <section>
+          <section id="achievementsSection">
             <div class="container">
               <div class="card">
                 <div class="row <?= $class ?>">

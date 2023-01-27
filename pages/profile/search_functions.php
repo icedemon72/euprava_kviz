@@ -7,7 +7,6 @@
   }
 
   function getResults($query, $conn) {
-    $query = '%' . $query . '%';
     $resArray = array(
       'username' => array(),
       'first_name' => array(),
